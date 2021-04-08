@@ -2,14 +2,15 @@ const mongoose = require('mongoose');
 const Users = mongoose.model(
     'Users',
     {
-        first_name: String,
-        last_name: String,
+        user_name: String,
+        email: String,
+        password: String,
         role: String
     },
     'Users'
 );
 
-const readAll = () => {
+const readAllUsers = () => {
     return new Promise((success, fail) => {
         Users.find({}, (err, data) => {
             if (err) {
@@ -20,7 +21,7 @@ const readAll = () => {
     });
 };
 
-const createNew = (data) => {
+const createNewUsers = (data) => {
     return new Promise((success, fail) => {
         let p = new Users(data);
         p.save((err) => {
@@ -33,7 +34,7 @@ const createNew = (data) => {
     });
 };
 
-const remove = (id) => {
+const removeUsers = (id) => {
     return new Promise((success, fail) => {
         Users.deleteOne({ _id: id }, (err) => {
             if (err) {
@@ -44,7 +45,7 @@ const remove = (id) => {
     });
 };
 
-const update = (id, data) => {
+const updateUsers = (id, data) => {
     return new Promise((success, fail) => {
         Users.updateOne({ _id: id }, data, (err) => {
             if (err) {
@@ -55,7 +56,7 @@ const update = (id, data) => {
     });
 };
 
-const getByEmail = (email) => {
+const getByEmailUsers = (email) => {
     return new Promise((success, fail) => {
         Users.findOne({ email: email }, (err, data) => {
             if (err) {
@@ -68,8 +69,8 @@ const getByEmail = (email) => {
 
 
 
-const Delovodnikdoc = mongoose.model(
-    'delovodnikDBDoc',
+const Products = mongoose.model(
+    'Products',
     {
         company_name: String,
         category:String,
@@ -78,12 +79,12 @@ const Delovodnikdoc = mongoose.model(
         date: String,
         Life:Number,
     },
-    'delovodnikDBDoc'
+    'Products'
 );
 
-const readAllDoc = () => {
+const readAllProduct = () => {
     return new Promise((success, fail) => {
-        Delovodnikdoc.find({}, (err, data) => {
+        Products.find({}, (err, data) => {
             if (err) {
                 return fail();
             }
@@ -92,9 +93,9 @@ const readAllDoc = () => {
     });
 };
 
-const createNewDoc = (data) => {
+const createNewProduct = (data) => {
     return new Promise((success, fail) => {
-        let p = new Delovodnikdoc(data);
+        let p = new Products(data);
         p.save((err) => {
             if (err) {
                 return fail();
@@ -105,9 +106,9 @@ const createNewDoc = (data) => {
     });
 };
 
-const removeDoc = (id) => {
+const removeProduct = (id) => {
     return new Promise((success, fail) => {
-        Delovodnikdoc.deleteOne({ _id: id }, (err) => {
+        Products.deleteOne({ _id: id }, (err) => {
             if (err) {
                 return fail();
             }
@@ -116,9 +117,9 @@ const removeDoc = (id) => {
     });
 };
 
-const updateDoc = (id, data) => {
+const updateProduct = (id, data) => {
     return new Promise((success, fail) => {
-        Delovodnikdoc.updateOne({ _id: id }, data, (err) => {
+        Products.updateOne({ _id: id }, data, (err) => {
             if (err) {
                 return fail();
             }
@@ -127,9 +128,149 @@ const updateDoc = (id, data) => {
     });
 };
 
-const getByEmailDoc = (email) => {
+const getByEmailProduct = (email) => {
     return new Promise((success, fail) => {
-        Delovodnikdoc.findOne({ email: email }, (err, data) => {
+        Products.findOne({ email: email }, (err, data) => {
+            if (err) {
+                return fail(err);
+            }
+            return success(data);
+        })
+    });
+}
+
+const Partners = mongoose.model(
+    'Partners',
+    {
+        company_name: String,
+        category:String,
+        subCategory:String,
+        subsubCategory:String,
+        date: String,
+        Life:Number,
+    },
+    'Partners'
+);
+
+const readAllPartner = () => {
+    return new Promise((success, fail) => {
+        Partners.find({}, (err, data) => {
+            if (err) {
+                return fail();
+            }
+            return success(data);
+        });
+    });
+};
+
+const createNewPartner = (data) => {
+    return new Promise((success, fail) => {
+        let p = new Partners(data);
+        p.save((err) => {
+            if (err) {
+                return fail();
+            }
+            console.log("asdasdasd as das ")
+            return success();
+        });
+    });
+};
+
+const removePartner = (id) => {
+    return new Promise((success, fail) => {
+        Partners.deleteOne({ _id: id }, (err) => {
+            if (err) {
+                return fail();
+            }
+            return success();
+        });
+    });
+};
+
+const updatePartner = (id, data) => {
+    return new Promise((success, fail) => {
+        Partners.updateOne({ _id: id }, data, (err) => {
+            if (err) {
+                return fail();
+            }
+            return success();
+        });
+    });
+};
+
+const getByEmailPartner = (email) => {
+    return new Promise((success, fail) => {
+        Partners.findOne({ email: email }, (err, data) => {
+            if (err) {
+                return fail(err);
+            }
+            return success(data);
+        })
+    });
+}
+
+const Sales = mongoose.model(
+    'Sales',
+    {
+        company_name: String,
+        category:String,
+        subCategory:String,
+        subsubCategory:String,
+        date: String,
+        Life:Number,
+    },
+    'Sales'
+);
+
+const readAllSale = () => {
+    return new Promise((success, fail) => {
+        Sales.find({}, (err, data) => {
+            if (err) {
+                return fail();
+            }
+            return success(data);
+        });
+    });
+};
+
+const createNewSale = (data) => {
+    return new Promise((success, fail) => {
+        let p = new Sales(data);
+        p.save((err) => {
+            if (err) {
+                return fail();
+            }
+            console.log("asdasdasd as das ")
+            return success();
+        });
+    });
+};
+
+const removeSale = (id) => {
+    return new Promise((success, fail) => {
+        Sales.deleteOne({ _id: id }, (err) => {
+            if (err) {
+                return fail();
+            }
+            return success();
+        });
+    });
+};
+
+const updateSale = (id, data) => {
+    return new Promise((success, fail) => {
+        Sales.updateOne({ _id: id }, data, (err) => {
+            if (err) {
+                return fail();
+            }
+            return success();
+        });
+    });
+};
+
+const getByEmailSale = (email) => {
+    return new Promise((success, fail) => {
+        Sales.findOne({ email: email }, (err, data) => {
             if (err) {
                 return fail(err);
             }
@@ -140,15 +281,27 @@ const getByEmailDoc = (email) => {
 
 module.exports = {
     Users,
-    readAll,
-    createNew,
-    remove,
-    update,
-    getByEmail,
-    Delovodnikdoc,
-    readAllDoc,
-createNewDoc,
-removeDoc,
-updateDoc,
-getByEmailDoc,
+    readAllUsers,
+    createNewUsers,
+    removeUsers,
+    updateUsers,
+    getByEmailUsers,
+    Products,
+    readAllProduct,
+    createNewProduct,
+    removeProduct,
+    updateProduct,
+    getByEmailProduct,
+    Partners,
+    readAllPartner,
+    createNewPartner,
+    removePartner,
+    updatePartner,
+    getByEmailPartner,
+    Sales,
+    readAllSale,
+    createNewSale,
+    removeSale,
+    updateSale,
+    getByEmailSale,
 };
