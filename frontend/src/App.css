@@ -172,6 +172,19 @@ body {
   font-size: 18px;
   margin-right: 7px;
 }
+.btn-size-5 {
+  background-color: #01ced1 !important;
+  border-color: #01ced1 !important;
+}
+
+.btn-size-5:hover {
+  background-color: #00b0b3 !important;
+  border-color: #00b0b3 !important;
+}
+
+.btn-size-4, .btn-size-5 {
+  margin: 5px;
+}
 .edit {
   color: green;
   font-size: 18px;
