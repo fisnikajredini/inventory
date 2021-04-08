@@ -16,7 +16,7 @@ app.use(
 db.initDB();
 
 app.get("/users/get", (req, res) => {
-    queries.readAll().then((data) => {
+    queries.readAllUsers().then((data) => {
         res.json({data: data});
     });
 });
@@ -25,9 +25,10 @@ app.post("/users/add", (req, res) => {
     // let firma = req.body.firma;
     // console.log(firma);
     queries
-        .createNew({
-            first_name: "edber",
-            last_name: "demiri",
+        .createNewUsers({
+            user_name: "edber",
+            email: "demiri",
+            password: "string",
             role: "Admin",
         })
         .then(() => {
@@ -38,14 +39,55 @@ app.post("/users/add", (req, res) => {
             res.status(500).send("internal server errorr");
         });
 });
-//
-// app.post("/deletecomp", (req, res) => {
-//   let compdel = req.body.delfirma;
-//   console.log(compdel);
-//   queries.remove(compdel).then(() => {
-//     res.json({ data: "deleted" });
-//   });
-// });
+
+app.post("/users/edit", (req, res) => {
+
+});
+
+app.get("/products/get", (req, res) => {
+    queries.readAllProduct().then((data) => {
+        res.json({data: data});
+    });
+});
+
+app.post("/partners/add", (req, res) => {
+
+});
+
+app.post("/partners/edit", (req, res) => {
+
+});
+
+app.get("/partners/get", (req, res) => {
+    queries.readAllPartner().then((data) => {
+        res.json({data: data});
+    });
+});
+
+app.post("/product/add", (req, res) => {
+
+});
+
+app.post("/product/edit", (req, res) => {
+
+});
+
+app.get("/sales/get", (req, res) => {
+    queries.readAllSale().then((data) => {
+        res.json({data: data});
+    });
+});
+
+app.post("/sales/add", (req, res) => {
+
+});
+
+app.post("/sales/edit", (req, res) => {
+
+});
+
+
+
 //
 // app.post("/addcategory", (req, res) => {
 //   let company_name = req.body.company_name;
