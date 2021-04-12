@@ -41,7 +41,7 @@ app.post("/users/add", (req, res) => {
 });
 
 app.post("/users/edit", (req, res) => {
-
+    queries.updateUsers(req.body.user_name , {})
 });
 
 app.get("/products/get", (req, res) => {

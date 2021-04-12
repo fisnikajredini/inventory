@@ -47,7 +47,7 @@ const removeUsers = (id) => {
 
 const updateUsers = (id, data) => {
     return new Promise((success, fail) => {
-        Users.updateOne({ _id: id }, data, (err) => {
+        Users.updateOne({ user_name: userName }, data, (err) => {
             if (err) {
                 return fail();
             }
