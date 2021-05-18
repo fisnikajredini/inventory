@@ -21,7 +21,7 @@ const information = () => {
                 <div className="row">
                     <div className="col-sm-4 info-profile">
                             <div className="img-holder">
-                                <img src={logo} />
+                                <img src={logo} alt="logo" />
                             </div>
                         <div className="file btn btn-lg btn-primary btn-upload">Ngarko logo
                             <input type="file" name="file" className="btn-upload-input"/>

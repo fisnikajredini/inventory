@@ -14,11 +14,11 @@ function LoginForm({ Login, error }) {
             <form onSubmit={submitHandelr}>
                 <div className="form-inner login-form">
                     <h2>Login</h2>
-                    {(error != "") ? (<div className="error">{error}</div> ): ""}
+                    {(error !== "") ? (<div className="error">{error}</div> ): ""}
                     <div className="form-group">
                     <   div className="profile">
                             <div className="img-holder">
-                                <img src={logo} />
+                                <img src={logo} alt="logo" />
                             </div>
                         </div>
                     </div>

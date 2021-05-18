@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import * as AiIcons from 'react-icons/ai';
+import axios from "axios";
 
 const Partnerbutton = styled(Link)`
 `;
@@ -13,6 +14,11 @@ function Addpartner() {
     
     const handleSubmit = (e) => {
         e.preventDefault();
+        axios.post('/partners/add', {
+            company_name: inputFields[0].partnerName,
+            phone_number: inputFields[0].partnerContact
+        })
+            .then()
         console.log("InputFields", inputFields);
     };
     

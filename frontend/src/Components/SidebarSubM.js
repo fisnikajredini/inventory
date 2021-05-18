@@ -18,7 +18,7 @@ const SidebarSubM = ({ item }) => {
     const showSubnav = () => setSubnav(!subnav)
     return (
         <>
-            <SidebarLink to={item.path} className="SidebarLink" id={window.location.pathname == item.path ? "active" : ""} onClick={item.subNav && showSubnav} >
+            <SidebarLink to={item.path} className="SidebarLink" id={window.location.pathname === item.path ? "active" : ""} onClick={item.subNav && showSubnav} >
                 <div>
                     {item.icon}
                     <SidebarLabel className="SidebarLabel">{item.title}</SidebarLabel>
@@ -29,7 +29,7 @@ const SidebarSubM = ({ item }) => {
             </SidebarLink>
             {subnav && item.subNav.map((item, index) => {
                 return (
-                    <DropdownLink to={item.path} key={index} className="DropdownLink" id={window.location.pathname == item.path ? "active" : ""}>
+                    <DropdownLink to={item.path} key={index} className="DropdownLink" id={window.location.pathname === item.path ? "active" : ""}>
                         {item.icon}
                         <SidebarLabel className="SidebarLabel">{item.title}</SidebarLabel>
                     </DropdownLink>

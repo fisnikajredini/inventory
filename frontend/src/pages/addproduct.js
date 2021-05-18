@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import * as AiIcons from 'react-icons/ai';
 import * as BiIcons from 'react-icons/bi';
 import * as HiIcons from 'react-icons/hi';
+import axios from "axios";
 
 const Person_b = styled(Link)`
 `;
@@ -20,6 +21,16 @@ function Addproduct() {
     
     const handleSubmit = (e) => {
         e.preventDefault();
+        axios.post('/products/add/company', {
+            product_name: inputFields[0].productName,
+            imei: inputFields[0].productImei,
+            category: inputFields[0].productCategory,
+            date: inputFields[0].productDate,
+            buyer: inputFields[0].productPartner,
+            buying_price: inputFields[0].productBuyPrice,
+            selling_price: inputFields[0].productSellPrice,
+            facture_number: inputFields[0].productRecieptNumber,
+        })
         console.log("InputFields", inputFields);
     };
     

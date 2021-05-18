@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
+// import { Link } from 'react-router-dom';
+// import * as FaIcons from 'react-icons/fa';
+// import * as AiIcons from 'react-icons/ai';
 import { SidebarData } from './SidebarData';
 import SidebarSubM from './SidebarSubM';
 import logo from '../logo.png'
@@ -22,7 +22,7 @@ const Sidebar = () => {
         <SidebarNav className="SidebarNav">
             <div className="profile">
                 <div className="img-holder">
-                    <img src={logo} />
+                    <img src={logo} alt="logo"/>
                 </div>
                 <div className="profile-name">
                     Irfan Ferati

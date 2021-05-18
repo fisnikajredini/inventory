@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+
+mongoose.set('useCreateIndex', true);
+
 const Users = mongoose.model(
     'Users',
     {
@@ -28,7 +31,6 @@ const createNewUsers = (data) => {
             if (err) {
                 return fail();
             }
-            console.log("asdasdasd as das ")
             return success();
         });
     });
@@ -72,12 +74,17 @@ const getByEmailUsers = (email) => {
 const Products = mongoose.model(
     'Products',
     {
-        company_name: String,
-        category:String,
-        subCategory:String,
-        subsubCategory:String,
-        date: String,
-        Life:Number,
+        product_name: String,
+        imei:  { type: Number, unique: true },
+        category: String,
+        date: Date,
+        buyer: String,
+        buying_price: Number,
+        selling_price: Number,
+        facture_number: Number,
+        name_surname: String,
+        tel_num: Number,
+        id_number: String
     },
     'Products'
 );
@@ -97,10 +104,10 @@ const createNewProduct = (data) => {
     return new Promise((success, fail) => {
         let p = new Products(data);
         p.save((err) => {
+            console.log(err)
             if (err) {
                 return fail();
             }
-            console.log("asdasdasd as das ")
             return success();
         });
     });
@@ -143,11 +150,7 @@ const Partners = mongoose.model(
     'Partners',
     {
         company_name: String,
-        category:String,
-        subCategory:String,
-        subsubCategory:String,
-        date: String,
-        Life:Number,
+        phone_number:String,
     },
     'Partners'
 );
@@ -170,7 +173,6 @@ const createNewPartner = (data) => {
             if (err) {
                 return fail();
             }
-            console.log("asdasdasd as das ")
             return success();
         });
     });
@@ -240,7 +242,6 @@ const createNewSale = (data) => {
             if (err) {
                 return fail();
             }
-            console.log("asdasdasd as das ")
             return success();
         });
     });

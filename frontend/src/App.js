@@ -15,11 +15,18 @@ import addproduct_p from './pages/addproduct_p';
 import allpartners from './pages/allpartners';
 import terms from './pages/terms';
 import newuser from './pages/newuser';
+import axios from 'axios';
 
-
+let partners;
 
 
 function App() {
+
+    axios.get('/partners/get').then(data=>{
+        partners = data.data.data
+        console.log(data.data.data)
+    })
+
   const adminUser = {
     email: "irfanferati@gmail.com",
     password: "admin123"
@@ -31,7 +38,7 @@ function App() {
   const Login = details => {
     console.log(details);
 
-    if (details.email == adminUser.email && details.password == adminUser.password) {
+    if (details.email === adminUser.email && details.password === adminUser.password) {
       console.log("Logged in");
       setUser({
         name: details.name,
@@ -44,13 +51,13 @@ function App() {
 
   }
 
-  const Logout = () => {
-    setUser({name: "", email: ""});
-  }
+  // const Logout = () => {
+  //   setUser({name: "", email: ""});
+  // }
 
   return (
     <div className="App">
-      {(user.email != "") ? (
+      {(user.email !== "") ? (
              <Router>
           <Sidebar />
           <Switch>

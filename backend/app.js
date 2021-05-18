@@ -26,13 +26,13 @@ app.post("/users/add", (req, res) => {
     // console.log(firma);
     queries
         .createNewUsers({
-            user_name: "edber",
-            email: "demiri",
-            password: "string",
-            role: "Admin",
+            user_name: req.body.user_name,
+            email: req.body.email,
+            password: req.body.password,
+            role: req.body.role,
         })
         .then(() => {
-            res.json({data: "Fi"});
+            res.json({data: "User Created Successfully"});
         })
         .catch((err) => {
             console.log(err);
@@ -41,21 +41,26 @@ app.post("/users/add", (req, res) => {
 });
 
 app.post("/users/edit", (req, res) => {
-    queries.updateUsers(req.body.user_name , {})
-});
-
-app.get("/products/get", (req, res) => {
-    queries.readAllProduct().then((data) => {
-        res.json({data: data});
-    });
+    queries.updateUsers(req.body.user_name, {})
 });
 
 app.post("/partners/add", (req, res) => {
-
+    let data = {
+        company_name: req.body.company_name,
+        phone_number: req.body.phone_number
+    }
+    queries.createNewPartner(data)
+        .then(() => {
+            res.json({data: "Partner Created Successfully"});
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send("internal server errorr");
+        });
 });
 
 app.post("/partners/edit", (req, res) => {
-
+    queries.updatePartner()
 });
 
 app.get("/partners/get", (req, res) => {
@@ -64,8 +69,56 @@ app.get("/partners/get", (req, res) => {
     });
 });
 
-app.post("/product/add", (req, res) => {
+app.get("/products/get", (req, res) => {
+    queries.readAllProduct().then((data) => {
+        res.json({data: data});
+    });
+});
 
+app.post("/products/add/company", (req, res) => {
+    console.log(req.body)
+    let data = {
+        product_name: req.body.product_name,
+        imei: req.body.imei,
+        category: req.body.category,
+        date: req.body.date,
+        buyer: req.body.buyer,
+        buying_price: req.body.buying_price,
+        selling_price: req.body.selling_price,
+        facture_number: req.body.facture_number
+    }
+    queries.createNewProduct(data)
+        .then((data) => {
+            console.log("123",data)
+            res.json({data: "Product Created Successfully"});
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send("internal server errorr");
+        });
+});
+
+app.post("/product/add/person", (req, res) => {
+    let data = {
+        product_name: req.body.product_name,
+        imei: req.body.imei,
+        category: req.body.category,
+        date: Date.now(),
+        buying_price: req.body.buying_price,
+        selling_price: req.body.selling_price,
+        name_surname: req.body.name_surname,
+        tel_num: req.body.tel_num,
+        id_number: req.body.id_number,
+    }
+    console.log("--"+JSON.stringify(data))
+    queries.createNewProduct(data)
+        .then(() => {
+            res.json({data: "Product Created Successfully"});
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send("internal server errorr");
+        });
 });
 
 app.post("/product/edit", (req, res) => {
@@ -85,7 +138,6 @@ app.post("/sales/add", (req, res) => {
 app.post("/sales/edit", (req, res) => {
 
 });
-
 
 
 //

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
+// import * as AiIcons from 'react-icons/ai';
 
 const RightbarNav = styled.nav` 
     right: ${({ rightbar }) => (rightbar ? '16px' : '-100%')};
