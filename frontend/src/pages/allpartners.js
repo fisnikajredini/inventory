@@ -1,8 +1,25 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as RiIcons from 'react-icons/ri';
+import axios from 'axios';
 
-const allpartners = () => {
+function Allpartners() {
+
+    const [partners, setPartners] = useState ([])
+
+    useEffect(() => {
+        axios.get('/partners/get').then(res=>{
+           // partners = data.data.data
+            console.log(res.data.data)
+            setPartners(res.data.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        // axios.get("/getpartner").then((response) => {
+        // this.setState({company_name: response.data.data });
+        // });
+    }, []);
     return (
         <>
             <div className="page-name">
@@ -18,30 +35,20 @@ const allpartners = () => {
                     <th scope="col">Edit/Delete</th>
                     </tr>
                 </thead>
+                {partners.map(partner => (
                 <tbody>
                     <tr>
-                    <th scope="row">1</th>
-                    <td>2B Media</td>
-                    <td>070888888</td>
-                    <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete"><RiIcons.RiDeleteBin6Fill /></div></td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Firma 2</td>
-                    <td>075668952</td>
-                    <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete"><RiIcons.RiDeleteBin6Fill /></div></td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Firma 6</td>
-                    <td>076123456</td>
+                    <th scope="row" key={partner.id}>{partner._id}</th>
+                    <td key={partner.id}>{partner.company_name}</td>
+                    <td key={partner.id}>{partner.phone_number}</td> 
                     <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete"><RiIcons.RiDeleteBin6Fill /></div></td>
                     </tr>
                 </tbody>
+                ))}
             </table>
         </div>
         </>
     )
 }
 
-export default allpartners
+export default Allpartners

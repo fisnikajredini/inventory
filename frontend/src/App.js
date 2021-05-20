@@ -22,10 +22,10 @@ let partners;
 
 function App() {
 
-    axios.get('/partners/get').then(data=>{
-        partners = data.data.data
-        console.log(data.data.data)
-    })
+    // axios.get('/partners/get').then(data=>{
+    //     partners = data.data.data
+    //     console.log(data.data.data)
+    // })
 
   const adminUser = {
     email: "irfanferati@gmail.com",

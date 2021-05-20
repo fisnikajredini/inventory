@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import * as BiIcons from 'react-icons/bi';
 import * as HiIcons from 'react-icons/hi';
-import axios from "axios";
+import axios from 'axios';
 
 const Company_b = styled(Link)`
 `;

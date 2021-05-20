@@ -1,26 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import * as AiIcons from 'react-icons/ai';
 import * as BiIcons from 'react-icons/bi';
 import * as HiIcons from 'react-icons/hi';
-import axios from "axios";
+import axios from 'axios';
+import Swal from "sweetalert2";
+
 
 const Person_b = styled(Link)`
 `;
 
 function Addproduct() {
+
+    // axios.get('/partners/get').then(data=>{
+    //     partners = data.data.data
+    //     console.log(partnerList)
+    // })
+
+    
     //Default Date current day
     var someDate = new Date();
     someDate.setDate(someDate.getDate());
     var date = someDate.toISOString().substr(0, 10);
-
+    
     const [inputFields, setInputFields] = useState ([
         {productName: '', productImei: '', productCategory:'', productDate: '', productPartner: '', productBuyPrice: '', productSellPrice: '', productRecieptNumber: ''},  
     ]);
+
+    const [partners, setPartners] = useState ([])
+    
+    useEffect(() => {
+        axios.get('/partners/get').then(res=>{
+           // partners = data.data.data
+            console.log(res.data.data)
+            setPartners(res.data.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        // axios.get("/getpartner").then((response) => {
+        // this.setState({company_name: response.data.data });
+        // });
+    }, []);
     
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (
+            inputFields != null &&
+            inputFields != "" &&
+            inputFields != undefined
+          ) {
         axios.post('/products/add/company', {
             product_name: inputFields[0].productName,
             imei: inputFields[0].productImei,
@@ -30,7 +60,22 @@ function Addproduct() {
             buying_price: inputFields[0].productBuyPrice,
             selling_price: inputFields[0].productSellPrice,
             facture_number: inputFields[0].productRecieptNumber,
-        })
+        }).then();
+        Swal.fire({
+            icon: "success",
+            confirmButtonText: `OK`,
+            title: "Produkti u shtua me sukses",
+            showConfirmButton: true,
+            timer: 1500,
+          }).then();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Plotësoni të gjitha fushat",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
         console.log("InputFields", inputFields);
     };
     
@@ -49,6 +94,8 @@ function Addproduct() {
         values.splice(values.findIndex(value => value.id === id), 1);
         setInputFields(values);
     }
+
+
     
     return (
             <>
@@ -90,7 +137,11 @@ function Addproduct() {
                         </div>
                         <div class="col-sm-4">
                         <label for="tabel" className="form-label">Blerësi</label>
-                            <select className="form-control" name="productPartner" value={inputField.productPartner} onChange={event => handleChangeInput(index, event)} aria-describedby="shifra"></select>
+                            <select className="form-control" name="productPartner" value={inputField.productPartner} onChange={event => handleChangeInput(index, event)} aria-describedby="shifra">
+                                {partners.map(partner => (
+                                <option key={partner.id}>{partner.company_name}</option> 
+                                ))}
+                            </select>
                         </div>
                         <div class="col-sm-4">
                             <label for="tabel" className="form-label">Çmimi blerës</label>

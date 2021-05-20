@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as RiIcons from 'react-icons/ri';
+import axios from 'axios';
 
-const products = () => {
+function Products() {
+
+    const [products, setProducts] = useState ([])
+
+    useEffect(() => {
+        axios.get('/products/get').then(res=>{
+           // partners = data.data.data
+            console.log(res.data.data)
+            setProducts(res.data.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        // axios.get("/getpartner").then((response) => {
+        // this.setState({company_name: response.data.data });
+        // });
+    }, []);
     return (
         <>
             <div className="page-name">
@@ -18,46 +35,28 @@ const products = () => {
                     <th scope="col">Data</th>
                     <th scope="col">Çmimi blerës</th>
                     <th scope="col">Çmimi shitës</th>
-                    <th scope="col">Blerësi</th>
+                    <th scope="col">Partneri</th>
                     <th scope="col">Edit/Delete</th>
                     </tr>
                 </thead>
+                {products.map(product => (
                 <tbody>
                     <tr>
-                    <th scope="row">1</th>
-                    <td>iPhone 8 plus</td>
-                    <td>545466548786</td>
-                    <td>12.05.2019</td>
-                    <td>120</td>
-                    <td>150</td>
-                    <td>Fisnik</td>
-                    <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete"><RiIcons.RiDeleteBin6Fill /></div></td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Samsung s5</td>
-                    <td>546865421100</td>
-                    <td>16.09.2020</td>
-                    <td>500</td>
-                    <td>1200</td>
-                    <td>Niki</td>
-                    <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete"><RiIcons.RiDeleteBin6Fill /></div></td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Huawei</td>
-                    <td>7687541286453</td>
-                    <td>28.09.2021</td>
-                    <td>600</td>
-                    <td>900</td>
-                    <td>Buda</td>
+                    <th scope="row" key={product.id}>1</th>
+                    <td key={product.id}>{product.product_name}</td>
+                    <td key={product.id}>{product.imei}</td>
+                    <td key={product.id}>{product.date}</td>
+                    <td key={product.id}>{product.buying_price}</td>
+                    <td key={product.id}>{product.selling_price}</td>
+                    <td key={product.id}>{product.buyer}</td>
                     <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete"><RiIcons.RiDeleteBin6Fill /></div></td>
                     </tr>
                 </tbody>
+                ))}
             </table>
         </div>
         </>
     )
 }
 
-export default products
+export default Products
