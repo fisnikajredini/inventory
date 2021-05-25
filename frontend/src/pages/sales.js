@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import * as FaIcons from 'react-icons/fa';
+import axios from 'axios';
 // import * as AiIcons from 'react-icons/ai';
+
 
 const RightbarNav = styled.nav` 
     right: ${({ rightbar }) => (rightbar ? '16px' : '-100%')};
@@ -10,10 +12,26 @@ const RightbarNav = styled.nav`
     height: 800px;
 `;
 
-const Sales = () => {
-    const [rightbar, setRightbar] = useState(false)
-    const showRightbar = () => setRightbar(!rightbar)
+function Sales() {
+    const [rightbar, setRightbar] = useState(false);
+    const showRightbar = () => setRightbar(!rightbar);
+    const [products, setProducts] = useState ([]);
+    const [searchBar, setSearchBar] = useState("");
 
+    useEffect(() => {
+        axios.get('/products/get').then(res=>{
+           // partners = data.data.data
+            console.log(res.data.data)
+            setProducts(res.data.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        // axios.get("/getpartner").then((response) => {
+        // this.setState({company_name: response.data.data });
+        // });
+    }, []);
+    
     return (
         <>
             <div className="page-name">
@@ -21,7 +39,14 @@ const Sales = () => {
                 <div className="cashier" onClick={showRightbar}><FaIcons.FaCashRegister/></div>
             </div>
         <div className='sales pt2'>
-            <input type="text" id="myInput" className="form-control search-bar" placeholder="Kërko paisjen..."></input>
+            <input 
+                type="text" 
+                id="myInput" 
+                className="form-control search-bar" 
+                placeholder="Kërko paisjen..."
+                onChange={(event) => {
+                    setSearchBar(event.target.value);
+                }}/>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -31,38 +56,26 @@ const Sales = () => {
                     <th scope="col">Data</th>
                     <th scope="col">Blerësi</th>
                     <th scope="col">Çmimi</th>
-                    <th scope="col">Sasia</th>
                     </tr>
                 </thead>
+                {products.filter((product) => {
+                    if (searchBar == "") {
+                        return null                
+                    } else if (product => product.product_name.toLowerCase().includes(searchBar.toLowerCase())) {
+                        return product
+                    }
+                }).map((product, key) => 
                 <tbody>
                     <tr>
-                    <th scope="row">1</th>
-                    <td>iPhone 8 plus</td>
-                    <td>545466548786</td>
-                    <td>12.05.2019</td>
-                    <td>Fisnik</td>
-                    <td>150</td>
-                    <td>1</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Samsung s5</td>
-                    <td>546865421100</td>
-                    <td>16.09.2020</td>
-                    <td>Niki</td>
-                    <td>1200</td>
-                    <td>1</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Huawei</td>
-                    <td>7687541286453</td>
-                    <td>28.09.2021</td>
-                    <td>Buda</td>
-                    <td>900</td>
-                    <td>1</td>
+                    <th scope="row" key={key}>1</th>
+                    <td>{product.product_name}</td>
+                    <td>{product.imei}</td>
+                    <td>{product.date}</td>
+                    <td>{product.buyer}</td>
+                    <td>{product.selling_price}</td>
                     </tr>
                 </tbody>
+                )}
             </table>
         </div>
         <RightbarNav rightbar={rightbar} className="sales-tab">

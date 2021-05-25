@@ -16,6 +16,7 @@ import allpartners from './pages/allpartners';
 import terms from './pages/terms';
 import newuser from './pages/newuser';
 import axios from 'axios';
+import Sales from './pages/sales';
 
 let partners;
 

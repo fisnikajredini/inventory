@@ -31,7 +31,7 @@ body {
   display: grid;
   justify-content: center;
   align-items: center !important;
-  margin-left: 265px;
+  margin-left: 15px;
   margin-top: 10px;
   margin-bottom: 15px;
   margin-right: 15px;
@@ -45,7 +45,7 @@ body {
   padding: 5px;
 }
 .inventory, .sales, .reports, .information, .account, .settings, .addproduct, .addpartner, .products, .addproduct_p, .allpartners, .terms, .newuser {
-  margin-left: 265px;
+  margin-left: 15px;
   margin-right: 15px;
   margin-top: 15px;
   margin-bottom: 15px;
