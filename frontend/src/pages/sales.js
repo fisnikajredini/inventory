@@ -17,7 +17,7 @@ function Sales() {
     const showRightbar = () => setRightbar(!rightbar);
     const [products, setProducts] = useState ([]);
     //const [searchBar, setSearchBar] = useState("");
-    const [selected, setSelected] = useState("");
+    const [selected, setSelected] = useState("IMEI");
 
 
     useEffect(() => {
@@ -49,8 +49,10 @@ function Sales() {
     function getByImeiProduct(event){
         let route = '/products/get/byimei' ;
         axios.post(route,{imei:event}).then(data=>{
-            console.log(data.data.data);
-            setProducts(data.data.data);
+            if(data.data.data !== null) {
+                console.log(data.data.data);
+                setProducts([data.data.data]);
+            }
         })
     }
     
@@ -97,7 +99,8 @@ function Sales() {
                     <th scope="col">Çmimi</th>
                     </tr>
                 </thead>
-                {products.map((product, key) => 
+                {console.log(products)}
+                {products.map((product, key) =>
                 <tbody>
                     <tr>
                     <th scope="row" key={product.id}>1</th>
