@@ -69,10 +69,18 @@ function Products() {
         })
     }
 
-    function removeProduct(event) {
-        let route ='/product/delete/person';
-        axios.delete(route,{id:event}).then(data=>{
-            console.log(data)
+    function removeProduct(id) {
+        let route ='/product/delete/product';
+        console.log(id)
+        axios.post(route,{id:id}).then(data=>{
+            axios.get('/products/get').then(res=>{
+            // partners = data.data.data
+            console.log(res.data.data)
+            setProducts(res.data.data)
+        })
+            .catch(err => {
+                console.log(err)
+            })
          })
          .catch(err => {
             console.log(err)
@@ -121,7 +129,7 @@ function Products() {
                 {products.map((product, id, key) =>
                 <tbody>
                     <tr>
-                    <th scope="row" key={product.id}>1</th>
+                    <th scope="row" key={product._id}>1</th>
                     <td>{product.product_name}</td>
                     <td>{product.imei}</td>
                     <td>{product.date}</td>
@@ -130,7 +138,7 @@ function Products() {
                     <td>{product.buyer}</td>
                     <td>{product.facture_number}</td>
                     <td>{product.category}</td>
-                    <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete" onClick={() => removeProduct(product.id)}><RiIcons.RiDeleteBin6Fill /></div></td>
+                    <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete" onClick={() => removeProduct(product._id)}><RiIcons.RiDeleteBin6Fill /></div></td>
                     </tr>
                 </tbody>
                 )}

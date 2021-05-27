@@ -141,20 +141,10 @@ app.post("/product/add/person", (req, res) => {
         });
 });
 
-app.delete("/product/delete/person", (req, res) => {
-    let data = {
-        product_name: req.body.product_name,
-        imei: req.body.imei,
-        category: req.body.category,
-        date: Date.now(),
-        buying_price: req.body.buying_price,
-        selling_price: req.body.selling_price,
-        name_surname: req.body.name_surname,
-        tel_num: req.body.tel_num,
-        id_number: req.body.id_number,
-    }
-    console.log("--"+JSON.stringify(data))
-    queries.deleteProduct(data)
+app.post("/product/delete/product", (req, res) => {
+
+    console.log("--"+JSON.stringify(req.body.id))
+    queries.removeProduct(req.body.id)
         .then(() => {
             res.json({data: "Product Deleted Successfully"});
         })
