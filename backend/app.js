@@ -88,6 +88,12 @@ app.post("/products/get/byname", (req, res) => {
         res.json({data: data});
     });
 });
+app.post("/products/get/bypartner", (req, res) => {
+    queries.getByPartnerProduct(req.body.partnername).then((data) => {
+        console.log(data)
+        res.json({data: data});
+    });
+});
 
 app.post("/products/add/company", (req, res) => {
     console.log(req.body)
@@ -128,6 +134,29 @@ app.post("/product/add/person", (req, res) => {
     queries.createNewProduct(data)
         .then(() => {
             res.json({data: "Product Created Successfully"});
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send("internal server errorr");
+        });
+});
+
+app.delete("/product/delete/person", (req, res) => {
+    let data = {
+        product_name: req.body.product_name,
+        imei: req.body.imei,
+        category: req.body.category,
+        date: Date.now(),
+        buying_price: req.body.buying_price,
+        selling_price: req.body.selling_price,
+        name_surname: req.body.name_surname,
+        tel_num: req.body.tel_num,
+        id_number: req.body.id_number,
+    }
+    console.log("--"+JSON.stringify(data))
+    queries.deleteProduct(data)
+        .then(() => {
+            res.json({data: "Product Deleted Successfully"});
         })
         .catch((err) => {
             console.log(err);

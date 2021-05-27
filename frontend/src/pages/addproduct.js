@@ -118,7 +118,7 @@ function Addproduct() {
                         </div> */}
                         <div class="col-sm-4">
                             <label for="tabel" className="form-label">Emri i Produktit</label>
-                            <input type="input" name="productName" className="form-control" value={inputField.productName} onChange={event => handleChangeInput(index, event)} aria-describedby="emri-produktit"></input>
+                            <input type="input" required name="productName" className="form-control" value={inputField.productName} onChange={event => handleChangeInput(index, event)} aria-describedby="emri-produktit"></input>
                         </div>
                         <div class="col-sm-4">
                             <label for="tabel" className="form-label">IMEI</label>

@@ -97,6 +97,7 @@ function Sales() {
                     <th scope="col">Data</th>
                     <th scope="col">Blerësi</th>
                     <th scope="col">Çmimi</th>
+                    <th scope="col">Shite produktin</th>
                     </tr>
                 </thead>
                 {console.log(products)}

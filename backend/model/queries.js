@@ -157,6 +157,17 @@ const getByNameProduct = (name) => {
     });
 }
 
+const getByPartnerProduct = (partnername) => {
+    return new Promise((success, fail) => {
+        Products.find({ buyer: partnername }, (err, data) => {
+            if (err) {
+                return fail(err);
+            }
+            return success(data);
+        })
+    });
+}
+
 const Partners = mongoose.model(
     'Partners',
     {
@@ -305,6 +316,7 @@ module.exports = {
     updateProduct,
     getByImeiProduct,
     getByNameProduct,
+    getByPartnerProduct,
     Partners,
     readAllPartner,
     createNewPartner,
