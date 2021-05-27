@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import * as AiIcons from 'react-icons/ai';
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 const Partnerbutton = styled(Link)`
 `;
@@ -11,16 +12,48 @@ function Addpartner() {
     const [inputFields, setInputFields] = useState ([
         {partnerName: '', partnerContact: ''},  
     ]);
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('/partners/add', {
-            company_name: inputFields[0].partnerName,
-            phone_number: inputFields[0].partnerContact
-        })
-            .then()
+        if (
+            inputFields[0].partnerName != null &&
+            inputFields[0].partnerName != "" &&
+            inputFields[0].partnerName != undefined &&
+            inputFields[0].partnerContact != null &&
+            inputFields[0].partnerContact != "" &&
+            inputFields[0].partnerContact != undefined
+            ) {
+            axios.post('/partners/add', {
+                company_name: inputFields[0].partnerName,
+                phone_number: inputFields[0].partnerContact
+            }).then();
+        Swal.fire({
+            icon: "success",
+            confirmButtonText: `OK`,
+            title: "Partneri u shtua me sukses",
+            showConfirmButton: true,
+            timer: 1500,
+          }).then();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Plotësoni të gjitha fushat",
+            showConfirmButton: true,
+            timer: 1500,
+          });
+        }
         console.log("InputFields", inputFields);
     };
+    
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     axios.post('/partners/add', {
+    //         company_name: inputFields[0].partnerName,
+    //         phone_number: inputFields[0].partnerContact
+    //     })
+    //         .then()
+    //     console.log("InputFields", inputFields);
+    // };
     
     const handleChangeInput = (index, event) => {
     const values = [...inputFields];
@@ -49,15 +82,11 @@ function Addpartner() {
             <div className="form-container" onSubmit={handleSubmit}>
             { inputFields.map((inputField, index) => (
                 <div className="partner-container container input-group" key={index}>
-                    <div className="col-sm-4">
-                        <label for="tabel" className="form-label">Shifra</label>
-                        <input type="number" placeholder="Gjenerim Automatik" className="form-control" id="shifra" aria-describedby="shifra"></input>
-                    </div>
-                    <div className="col-sm-4">
+                    <div className="col-sm-6">
                         <label for="tabel" className="form-label">Emri partnerit</label>
                         <input type="input" className="form-control" name="partnerName" value={inputField.partnerName} onChange={event => handleChangeInput(index, event)} aria-describedby="shifra"></input>
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-sm-6">
                         <label for="tabel" className="form-label">Nr. Kontakti</label>
                         <input type="number" className="form-control" name="partnerContact" value={inputField.partnerContact} onChange={event => handleChangeInput(index, event)} aria-describedby="shifra"></input>
                     </div>
@@ -72,10 +101,10 @@ function Addpartner() {
                 </div>
                 )) }
                     <div className="col-sm-12 align-btn-center p2">
-                        <div className="col-sm-4">
+                        <div className="col-sm-6">
                             <Partnerbutton type="button" className="btn btn-warning btn-size" to={'./allpartners'} >Shiko partnerët</Partnerbutton>
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-sm-6">
                             <button type="button" className="btn btn-success btn-size" onClick={handleSubmit}>Shto partnerin</button>
                         </div>
                     </div>

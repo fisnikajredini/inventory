@@ -388,3 +388,6 @@ body {
 .cart_container_btn button{
   width: 100%;
 }
+.swal2-actions .swal2-confirm{
+  background-color: #1bd30b !important;
+}

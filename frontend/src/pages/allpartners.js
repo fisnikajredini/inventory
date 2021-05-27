@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as RiIcons from 'react-icons/ri';
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 function Allpartners() {
 
@@ -20,6 +21,38 @@ function Allpartners() {
         // this.setState({company_name: response.data.data });
         // });
     }, []);
+
+    function removePartner(id) {
+        Swal.fire({
+          title:
+            "Dëshironi të fshini partnerin ? ",
+          showDenyButton: true,
+          confirmButtonText: `PO`,
+          denyButtonText: `JO`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            let route ='/partners/delete/partner';
+            console.log(id)
+            axios.post(route,{id:id}).then(data=>{
+                axios.get('/partners/get').then(res=>{
+                // partners = data.data.data
+                console.log(res.data.data)
+                setPartners(res.data.data);
+        })
+            .catch(err => {
+                console.log(err)
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+            Swal.fire("Partneri u fshi!", "", "success").then();
+          } else if (result.isDenied) {
+            Swal.fire("Partneri nuk u fshi!", "", "error");
+          }
+        });
+      };
+
     return (
         <>
             <div className="page-name">
@@ -38,10 +71,10 @@ function Allpartners() {
                 {partners.map(partner => (
                 <tbody>
                     <tr>
-                    <th scope="row" key={partner.id}>{partner._id}</th>
-                    <td key={partner.id}>{partner.company_name}</td>
-                    <td key={partner.id}>{partner.phone_number}</td> 
-                    <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete"><RiIcons.RiDeleteBin6Fill /></div></td>
+                    <th scope="row" key={partner._id}>{partner._id}</th>
+                    <td>{partner.company_name}</td>
+                    <td>{partner.phone_number}</td> 
+                    <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete" onClick={() => removePartner(partner._id)}><RiIcons.RiDeleteBin6Fill /></div></td>
                     </tr>
                 </tbody>
                 ))}

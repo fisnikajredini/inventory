@@ -59,6 +59,19 @@ app.post("/partners/add", (req, res) => {
         });
 });
 
+app.post("/partners/delete/partner", (req, res) => {
+
+    console.log("--"+JSON.stringify(req.body.id))
+    queries.removePartner(req.body.id)
+        .then(() => {
+            res.json({data: "Partner Deleted Successfully"});
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send("internal server errorr");
+        });
+});
+
 app.post("/partners/edit", (req, res) => {
     queries.updatePartner()
 });

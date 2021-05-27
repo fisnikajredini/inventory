@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as RiIcons from 'react-icons/ri';
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 function Products() {
 
@@ -70,23 +71,36 @@ function Products() {
     }
 
     function removeProduct(id) {
-        let route ='/product/delete/product';
-        console.log(id)
-        axios.post(route,{id:id}).then(data=>{
-            axios.get('/products/get').then(res=>{
-            // partners = data.data.data
-            console.log(res.data.data)
-            setProducts(res.data.data)
+        Swal.fire({
+          title:
+            "Dëshironi të fshini produktin ? ",
+          showDenyButton: true,
+          confirmButtonText: `PO`,
+          denyButtonText: `JO`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            let route ='/product/delete/product';
+            console.log(id)
+            axios.post(route,{id:id}).then(data=>{
+                axios.get('/products/get').then(res=>{
+                // partners = data.data.data
+                console.log(res.data.data)
+                setProducts(res.data.data);
         })
             .catch(err => {
                 console.log(err)
             })
-         })
-         .catch(err => {
+        })
+        .catch(err => {
             console.log(err)
         })
+            Swal.fire("Produkti u fshi!", "", "success").then();
+          } else if (result.isDenied) {
+            Swal.fire("Produkti nuk u fshi!", "", "error");
+          }
+        });
+      };
 
-    }
     return (
         <>
             <div className="page-name">

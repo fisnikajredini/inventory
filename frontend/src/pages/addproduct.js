@@ -20,9 +20,9 @@ function Addproduct() {
 
     
     //Default Date current day
-    var someDate = new Date();
-    someDate.setDate(someDate.getDate());
-    var date = someDate.toISOString().substr(0, 10);
+    // var someDate = new Date();
+    // someDate.setDate(someDate.getDate());
+    // var date = someDate.toISOString().substr(0, 10);
     
     const [inputFields, setInputFields] = useState ([
         {productName: '', productImei: '', productCategory:'', productDate: '', productPartner: '', productBuyPrice: '', productSellPrice: '', productRecieptNumber: ''},  
@@ -47,9 +47,30 @@ function Addproduct() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (
-            inputFields != null &&
-            inputFields != "" &&
-            inputFields != undefined
+            inputFields[0].productName != null &&
+            inputFields[0].productName != "" &&
+            inputFields[0].productName != undefined &&
+            inputFields[0].productImei != null &&
+            inputFields[0].productImei != "" &&
+            inputFields[0].productImei != undefined &&
+            inputFields[0].productCategory != null &&
+            inputFields[0].productCategory != "" &&
+            inputFields[0].productCategory != undefined &&
+            inputFields[0].productDate != null &&
+            inputFields[0].productDate != "" &&
+            inputFields[0].productDate != undefined &&
+            inputFields[0].productPartner != null &&
+            inputFields[0].productPartner != "" &&
+            inputFields[0].productPartner != undefined &&
+            inputFields[0].productBuyPrice != null &&
+            inputFields[0].productBuyPrice != "" &&
+            inputFields[0].productBuyPrice != undefined &&
+            inputFields[0].productSellPrice != null &&
+            inputFields[0].productSellPrice != "" &&
+            inputFields[0].productSellPrice != undefined &&
+            inputFields[0].productRecieptNumber != null &&
+            inputFields[0].productRecieptNumber != "" &&
+            inputFields[0].productRecieptNumber != undefined
           ) {
         axios.post('/products/add/company', {
             product_name: inputFields[0].productName,
@@ -72,7 +93,7 @@ function Addproduct() {
           Swal.fire({
             icon: "error",
             title: "Plotësoni të gjitha fushat",
-            showConfirmButton: false,
+            showConfirmButton: true,
             timer: 1500,
           });
         }
@@ -133,7 +154,7 @@ function Addproduct() {
                         </div>
                         <div class="col-sm-4">
                             <label for="tabel" className="form-label">Data</label>
-                            <input type="date" className="form-control" name="productDate" value={inputField.productDate, date} onChange={event => handleChangeInput(index, event)} aria-describedby="emri-produktit"></input>
+                            <input type="date" className="form-control" name="productDate" value={inputField.productDate} onChange={event => handleChangeInput(index, event)} aria-describedby="emri-produktit"></input>
                         </div>
                         <div class="col-sm-4">
                         <label for="tabel" className="form-label">Blerësi</label>

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import * as BiIcons from 'react-icons/bi';
 import * as HiIcons from 'react-icons/hi';
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 const Company_b = styled(Link)`
 `;
@@ -31,6 +32,35 @@ function Addproduct_p({partners}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (
+            inputFields[0].productName != null &&
+            inputFields[0].productName != "" &&
+            inputFields[0].productName != undefined &&
+            inputFields[0].productImei != null &&
+            inputFields[0].productImei != "" &&
+            inputFields[0].productImei != undefined &&
+            inputFields[0].productCategory != null &&
+            inputFields[0].productCategory != "" &&
+            inputFields[0].productCategory != undefined &&
+            inputFields[0].productDate != null &&
+            inputFields[0].productDate != "" &&
+            inputFields[0].productDate != undefined &&
+            inputFields[0].productPName != null &&
+            inputFields[0].productPName != "" &&
+            inputFields[0].productPName != undefined &&
+            inputFields[0].productPIdNr != null &&
+            inputFields[0].productPIdNr != "" &&
+            inputFields[0].productPIdNr != undefined &&
+            inputFields[0].productPContactNr != null &&
+            inputFields[0].productPContactNr != "" &&
+            inputFields[0].productPContactNr != undefined &&
+            inputFields[0].productBuyPrice != null &&
+            inputFields[0].productBuyPrice != "" &&
+            inputFields[0].productBuyPrice != undefined &&
+            inputFields[0].productSellPrice != null &&
+            inputFields[0].productSellPrice != "" &&
+            inputFields[0].productSellPrice != undefined 
+          ) {
         axios.post('/product/add/person', {
                 product_name: inputFields[0].productName,
                 imei: inputFields[0].productImei,
@@ -42,10 +72,24 @@ function Addproduct_p({partners}) {
                 buying_price: inputFields[0].productBuyPrice,
                 selling_price: inputFields[0].productSellPrice,
             }
-        )
-            .then()
-        console.log("InputFields", inputFields);
-    };
+        ).then()
+            Swal.fire({
+                icon: "success",
+                confirmButtonText: `OK`,
+                title: "Produkti u shtua me sukses",
+                showConfirmButton: true,
+                timer: 1500,
+              }).then();
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Plotësoni të gjitha fushat",
+                showConfirmButton: true,
+                timer: 1500,
+              });
+            }
+            console.log("InputFields", inputFields);
+        };
 
     const handleChangeInput = (index, event) => {
         const values = [...inputFields];
@@ -151,4 +195,4 @@ function Addproduct_p({partners}) {
     )
 }
 
-export default Addproduct_p
+export default Addproduct_p;
