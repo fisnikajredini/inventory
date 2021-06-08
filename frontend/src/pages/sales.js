@@ -31,8 +31,8 @@ function Sales() {
     const [discount, setDiscount] = useState([]);
     const [recieve, setRecieve] = useState([]);
 
-    const [garantionValues, setGarantionValues] = useState ([
-        {firstName: '', lastName: '', contactNr: '', garantionDate: ''},  
+    const [garantionValues, setGarantionValues] = useState([
+        { firstName: '', lastName: '', contactNr: '', garantionDate: '' },
     ]);
 
     // const onAdd = (product) => {
@@ -130,20 +130,24 @@ function Sales() {
     }
 
     function addToSalesTable(e) {
-     
+        
         let inputs = products;
         axios.post('/sales/add', inputs, {
             first_name: garantionValues.firstName,
             last_name: garantionValues.lastName,
             client_tel_num: garantionValues.contactNr,
             garantion_date: garantionValues.garantionDate,
-            selled_price: discountPrice
+            selled_price: cartItems.discountPrice
         })
-        .then(
-            console.log("product deleted and added successfully")
-        )
-        .catch(err => console.log(err))
-        
+            .then((id)=>{
+                axios.post('/product/delete/product', { id:id }).then()
+                    .catch(err => {
+                        console.log(err)
+                    })}
+
+            )
+            .catch(err => console.log(err))
+
     }
 
     // function handleChangeGarantion(event){
@@ -155,8 +159,8 @@ function Sales() {
     //     //product.push(the 4 new values of the inputs)
     // }
 
-    function handleChangeGarantion(e){
-        const values = {...garantionValues};
+    function handleChangeGarantion(e) {
+        const values = { ...garantionValues };
         values[e.target.name] = e.target.value;
         setGarantionValues(values);
         console.log(values)
@@ -288,36 +292,36 @@ function Sales() {
             </RightbarNav>
             <GarantionForm garantionform={garantionform} onSubmit={(e) => addToSalesTable(e)} className="garantion-form">
                 <div className="close-form" onClick={showgarantionform}>X</div>
-                    
+
                 <div className="popup-form">
                     <div className="form-group">
                         <h3 className="title pt-2">Garancioni:</h3>
                     </div>
-                       <div> 
-                    <div className="row garantion-inputs col-sm-12">
-                        <div className="col-md-6">
-                            <div className="form-group">
-                                <input type="input" placeholder="Emri" name="firstName" className="form-control" id="firstName" aria-describedby="shifra" value={garantionValues.firstName} onChange={e => handleChangeGarantion(e)}></input>
+                    <div>
+                        <div className="row garantion-inputs col-sm-12">
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <input type="input" placeholder="Emri" name="firstName" className="form-control" id="firstName" aria-describedby="shifra" value={garantionValues.firstName} onChange={e => handleChangeGarantion(e)}></input>
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <input type="input" placeholder="Mbiemri" name="lastName" className="form-control" id="lastName" aria-describedby="shifra" value={garantionValues.lastName} onChange={e => handleChangeGarantion(e)}></input>
+                                </div>
                             </div>
                         </div>
-                        <div className="col-md-6">
-                            <div className="form-group">
-                                <input type="input" placeholder="Mbiemri" name="lastName" className="form-control" id="lastName" aria-describedby="shifra" value={garantionValues.lastName} onChange={e => handleChangeGarantion(e)}></input>
+                        <div className="row garantion-inputs col-sm-12">
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <input type="input" placeholder="Nr. Telefonit" name="contactNr" className="form-control" id="contactNr" aria-describedby="shifra" value={garantionValues.contactNr} onChange={e => handleChangeGarantion(e)}></input>
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <input type="input" placeholder="Garancion / Muaj" name="garantionDate" className="form-control" id="garantionDate" aria-describedby="shifra" value={garantionValues.garantionDate} onChange={e => handleChangeGarantion(e)}></input>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row garantion-inputs col-sm-12">
-                        <div className="col-md-6">
-                            <div className="form-group">
-                                <input type="input" placeholder="Nr. Telefonit" name="contactNr" className="form-control" id="contactNr" aria-describedby="shifra" value={garantionValues.contactNr} onChange={e => handleChangeGarantion(e)}></input>
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <div className="form-group">
-                                <input type="input" placeholder="Garancion / Muaj" name="garantionDate" className="form-control" id="garantionDate" aria-describedby="shifra" value={garantionValues.garantionDate} onChange={e => handleChangeGarantion(e)}></input>
-                            </div>
-                        </div>
-                    </div>
                     </div>
                     {cartItems.map((product) => (
                         <div className="col-md-12" key={product.id}>
@@ -328,14 +332,14 @@ function Sales() {
                             </div>
                             <div className="row garantion-inputs col-sm-12">
                                 <div className="form-group">
-                                    <button type="button" className="btn btn-success" onClick={addToSalesTable(product)}>Ruaj</button>
+                                    <button type="button" className="btn btn-success" onClick={() => addToSalesTable(product)}>Ruaj</button>
                                 </div>
                             </div>
                         </div>
                     ))}
 
                 </div>
-                       
+
             </GarantionForm>
         </>
 

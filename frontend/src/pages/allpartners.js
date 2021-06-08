@@ -59,19 +59,17 @@ function Allpartners() {
                 <h3>Partnerët e biznesit</h3>
             </div>
         <div className='allpartners pt6'>
-            <table class="table table-hover">
-                <thead>
+        <table class="table table-hover table-sm">
+                <thead class="table-dark">
                     <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Partneri</th>
                     <th scope="col">Nr. Kontaktit</th>
                     <th scope="col">Edit/Delete</th>
                     </tr>
                 </thead>
-                {partners.map(partner => (
+                {[...partners].reverse().map(partner => (
                 <tbody>
                     <tr>
-                    <th scope="row" key={partner._id}>{partner._id}</th>
                     <td>{partner.company_name}</td>
                     <td>{partner.phone_number}</td> 
                     <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete" onClick={() => removePartner(partner._id)}><RiIcons.RiDeleteBin6Fill /></div></td>

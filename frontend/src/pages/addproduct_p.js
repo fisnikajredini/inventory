@@ -12,16 +12,16 @@ const Company_b = styled(Link)`
 function Addproduct_p({partners}) {
     console.log(partners)
     //Default Date current day
-    var someDate = new Date();
+    const someDate = new Date();
     someDate.setDate(someDate.getDate());
-    var date = someDate.toISOString().substr(0, 10);
+    const date = someDate.toISOString().substr(0, 10);
 
     const [inputFields, setInputFields] = useState([
         {
             productName: '',
             productImei: '',
-            productCategory: '',
-            productDate: '',
+            productCategory: 'Celular',
+            productDate: date,
             productPName: '',
             productPContactNr: '',
             productPIdNr: '',
@@ -134,7 +134,7 @@ function Addproduct_p({partners}) {
                             <div class="col-sm-4">
                                 <label for="tabel" className="form-label">Kategoria</label>
                                 <select className="form-control" name="productCategory"
-                                        value={inputField.productCategory}
+                                        defaultValue={inputField.productCategory}
                                         onChange={event => handleChangeInput(index, event)} aria-describedby="shifra">
                                     <option>Celular</option>
                                     <option>Tablet</option>
@@ -143,7 +143,7 @@ function Addproduct_p({partners}) {
                             <div class="col-sm-4">
                                 <label for="tabel" className="form-label">Data</label>
                                 <input type="date" className="form-control" name="productDate"
-                                       value={inputField.productDate + date}
+                                       defaultValue={inputField.productDate}
                                        onChange={event => handleChangeInput(index, event)}
                                        aria-describedby="emri-produktit"></input>
                             </div>

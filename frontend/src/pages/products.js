@@ -10,7 +10,7 @@ function Products() {
     const [selected, setSelected] = useState("");
 
     useEffect(() => {
-        axios.get('/products/get').then(res=>{
+        axios.get('/products/get').then(res=> {
            // partners = data.data.data
             console.log(res.data.data)
             setProducts(res.data.data)
@@ -125,8 +125,8 @@ function Products() {
                         onChange={getByProduct}/>
                 </div>
             </div>
-            <table class="table table-hover">
-                <thead>
+            <table class="table table-hover table-sm">
+                <thead class="table-dark">
                     <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Emri produktit</th>

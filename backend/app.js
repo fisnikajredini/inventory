@@ -171,6 +171,19 @@ app.post("/product/edit", (req, res) => {
 
 });
 
+app.post("/sales/delete/product", (req, res) => {
+
+    console.log("--"+JSON.stringify(req.body.id))
+    queries.removeSale(req.body.id)
+        .then(() => {
+            res.json({data: "Product Deleted Successfully"});
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send("internal server errorr");
+        });
+});
+
 app.get("/sales/get", (req, res) => {
     queries.readAllSale().then((data) => {
         res.json({data: data});
@@ -178,17 +191,16 @@ app.get("/sales/get", (req, res) => {
 });
 
 app.post("/sales/add", (req, res) => {
-    console.log(req.body)
-    queries.createNewSale(req.body).then(
-        queries.removeProduct(req.body.id)
-        .then(() => {
-            res.json({data: "Product Deleted Successfully"});
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).send("internal server errorr");
-        })
-    )
+    let inputs = req.body;
+    delete inputs[0]._id;
+    console.log(inputs[0])
+    queries.createNewSale(inputs[0]).then(()=>
+        res.status(200)
+    ).catch((err)=>{
+        console.log(err)
+
+        res.status(500).send("internal server errorr");
+    })
 });
 
 app.post("/sales/edit", (req, res) => {

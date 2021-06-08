@@ -23,6 +23,37 @@ function Reports() {
         // });
     }, []);
 
+    function removeSale(id) {
+        Swal.fire({
+          title:
+            "Dëshironi të fshini produktin ? ",
+          showDenyButton: true,
+          confirmButtonText: `PO`,
+          denyButtonText: `JO`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            let route ='/sales/delete/product';
+            console.log(id)
+            axios.post(route,{id:id}).then(data=>{
+                axios.get('/sales/get').then(res=>{
+                // partners = data.data.data
+                console.log(res.data.data)
+                setProducts(res.data.data);
+        })
+            .catch(err => {
+                console.log(err)
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+            Swal.fire("Produkti u fshi!", "", "success").then();
+          } else if (result.isDenied) {
+            Swal.fire("Produkti nuk u fshi!", "", "error");
+          }
+        });
+      };
+
     return (
         <>
             <div className="page-name">
@@ -30,11 +61,11 @@ function Reports() {
             </div>
         <div className='reports pt2'>
             <div className="exportButtonContainer">
-                <button id="exportButton1" class="btn btn-lg btn-danger clearfix"><FaIcons.FaFilePdf /> Export to PDF</button>
+                <button id="exportButton1" class="btn btn-lg btn-warning clearfix"><FaIcons.FaFilePdf /> Export to PDF</button>
                 <button id="exportButton2" class="btn btn-lg btn-success clearfix"><RiIcons.RiFileExcel2Fill /> Export to Excel</button>
             </div>
-            <table id="exportTable" class="table table-hover">
-            <thead>
+            <table id="exportTable"  class="table table-hover table-sm">
+                <thead class="table-dark">
                 <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Emri produktit</th>
@@ -59,8 +90,9 @@ function Reports() {
                     <td>{product.first_name + product.last_name}</td>
                     <td>{product.buyer || product.name_surname}</td>
                     <td>{product.selled_price}</td>
-                    <td>{product.category}</td>
-                    <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete" ><RiIcons.RiDeleteBin6Fill /></div></td>
+                    <td>Get Sales Username</td>
+                    {/* <td>{product.category}</td> */}
+                    <td className="edit-delete"><div className="edit"><FaIcons.FaEdit /></div><div className="delete" onClick={() => removeSale(product._id)}><RiIcons.RiDeleteBin6Fill /></div></td>
                     </tr>
                 </tbody>
                 )}

@@ -17,11 +17,22 @@ function Addproduct() {
     //     partners = data.data.data
     //     console.log(partnerList)
     // })
+    //Default Date current day
+    const someDate = new Date();
+    someDate.setDate(someDate.getDate());
+    const date = someDate.toISOString().substr(0, 10);
 
     
-    const [inputFields, setInputFields] = useState ([
-        {productName: '', productImei: '', productCategory:'', productDate: '', productPartner: '', productBuyPrice: '', productSellPrice: '', productRecieptNumber: ''},  
-    ]);
+    const [inputFields, setInputFields] = useState ([{ 
+        productName: '', 
+        productImei: '', 
+        productCategory:'Celular', 
+        productDate: date, 
+        productPartner: '', 
+        productBuyPrice: '', 
+        productSellPrice: '', 
+        productRecieptNumber: ''
+    }]);
 
     const [partners, setPartners] = useState ([])
     
@@ -69,10 +80,7 @@ function Addproduct() {
 
             
           )  {
-              //Default Date current day
-            const someDate = new Date();
-            someDate.setDate(someDate.getDate());
-            const productDate = someDate.toISOString().substr(0, 10);
+              
         axios.post('/products/add/company', {
             product_name: inputFields[0].productName,
             imei: inputFields[0].productImei,
@@ -109,7 +117,16 @@ function Addproduct() {
     }
     //Function to duplicate the fields
     const handleAddFields = () => {
-        setInputFields([...inputFields, { productName: '', productImei: '', productCategory:'', productDate: '', productPartner: '', productBuyPrice: '', productSellPrice: '', productRecieptNumber: '' }])
+        setInputFields([...inputFields, { 
+            productName: '', 
+            productImei: '', 
+            productCategory:'', 
+            productDate: '', 
+            productPartner: '', 
+            productBuyPrice: '', 
+            productSellPrice: '', 
+            productRecieptNumber: '' 
+        }])
     }
     //Function to remove the fields
     const handleRemoveFields = id => {
@@ -145,18 +162,19 @@ function Addproduct() {
                         </div>
                         <div class="col-sm-4">
                             <label for="tabel" className="form-label">Kategoria</label>
-                            <select className="form-control" name="productCategory" defaultValue={inputField.productCategory+"Celular"} onChange={event => handleChangeInput(index, event)} aria-describedby="shifra">
+                            <select className="form-control" name="productCategory" value={inputField.productCategory} onChange={event => handleChangeInput(index, event)} aria-describedby="shifra">
                                 <option>Celular</option>
                                 <option>Tablet</option>
                             </select>
                         </div>
                         <div class="col-sm-4">
                             <label for="tabel" className="form-label">Data</label>
-                            <input type="date" className="form-control" name="productDate" defaultValue={inputField.productDate} onChange={event => handleChangeInput(index, event)} aria-describedby="emri-produktit"></input>
+                            <input type="date" className="form-control" name="productDate" value={inputField.productDate} onChange={event => handleChangeInput(index, event)} aria-describedby="emri-produktit"></input>
                         </div>
                         <div class="col-sm-4">
                         <label for="tabel" className="form-label">Blerësi</label>
                             <select className="form-control" name="productPartner" value={inputField.productPartner} onChange={event => handleChangeInput(index, event)} aria-describedby="shifra">
+                                <option value="" disabled selected>Zgjidhe Partnerin</option>
                                 {partners.map(partner => (
                                 <option key={partner.id}>{partner.company_name}</option> 
                                 ))}

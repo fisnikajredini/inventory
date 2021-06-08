@@ -138,7 +138,7 @@ body {
   margin: 5px !important;
 }
 .products .table, .allpartners .table, .sales .table, .reports .table{
-  width: 90%;
+  width: 95%;
 }
 .table-striped {
   background-color: #f2f2f2;
