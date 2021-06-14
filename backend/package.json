@@ -5,20 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"nodemon app.js\" \"cd../frontend && npm start\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron-package": "./node_modules/.bin/electron-builder -c.extraMetadata.main=build/start-electron.js",
-    "preelectron-package": "npm run build"
-  },
-  "build": {
-    "appId": "com.loyno-mathcs.your-github-name.weatherstation.wotdevice",
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    }
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
