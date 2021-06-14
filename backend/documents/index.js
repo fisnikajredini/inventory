@@ -1,4 +1,4 @@
-module.exports = ({ firstName, lastName, garantionDate, product_name, imei }) => {
+module.exports = ({ gar, cart_items, firstName, lastName, garantionDate, product_name, imei }) => {
     const today = new Date();
 return `
 <!doctype html>
@@ -108,7 +108,7 @@ return `
                       <table>
                          <tr>
                             <td>
-                               Klienti: ${firstName} ${lastName}  <br/>
+                               Klienti: ${gar.firstName} ${gar.lastName}  <br/>
                             </td>
                             <td>
                                PIB: 4028016529113
@@ -123,11 +123,11 @@ return `
                 </tr>
                 <tr class="item">
                    <td>Emri i produktit:</td>
-                   <td>${product_name}</td>
+                   <td>${cart_items[0].product_name}</td>
                 </tr>
                 <tr class="item">
                    <td>IMEI: </td>
-                   <td>${imei}</td>
+                   <td>${cart_items[0].imei}</td>
                 </tr>
              </table>
              <tr class="information">
@@ -135,7 +135,7 @@ return `
                       <table>
                          <tr>
                             <td>
-                              <strong> Garancioni vlen deri: ${garantionDate}</strong>
+                              <strong> Garancioni vlen deri: ${gar.garantionDate}</strong>
                             </td>
                             <td>
                             </td>
