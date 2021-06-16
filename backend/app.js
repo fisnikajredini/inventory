@@ -128,6 +128,12 @@ app.post("/products/get/bypartner", (req, res) => {
         res.json({data: data});
     });
 });
+app.post("/products/get/byfacture", (req, res) => {
+    queries.getByFactureProduct(req.body.nrfaktures).then((data) => {
+        console.log(data)
+        res.json({data: data});
+    })
+})
 
 app.post("/products/add/company", (req, res) => {
     console.log(req.body)

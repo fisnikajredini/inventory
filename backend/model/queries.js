@@ -75,13 +75,13 @@ const Products = mongoose.model(
     'Products',
     {
         product_name: String,
-        imei:  { type: Number, unique: true },
+        imei: { type: Number, unique: true },
         category: String,
         date: Date,
         buyer: String,
         buying_price: Number,
         selling_price: Number,
-        facture_number: Number,
+        facture_number: String,
         name_surname: String,
         tel_num: Number,
         id_number: String
@@ -168,11 +168,22 @@ const getByPartnerProduct = (partnername) => {
     });
 }
 
+const getByFactureProduct = (nrfaktures) => {
+    return new Promise((success, fail) => {
+        Products.find({ facture_number: nrfaktures }, (err, data) => {
+            if (err) {
+                return fail(err);
+            }
+            return success(data);
+        })
+    });
+}
+
 const Partners = mongoose.model(
     'Partners',
     {
         company_name: String,
-        phone_number:String,
+        phone_number: String,
     },
     'Partners'
 );
@@ -237,20 +248,20 @@ const Sales = mongoose.model(
     'Sales',
     {
         product_name: String,
-        imei:  { type: Number, unique: true },
+        imei: { type: Number, unique: true },
         category: String,
         date: Date,
         buyer: String,
         buying_price: Number,
         selling_price: Number,
-        facture_number: Number,
+        facture_number: String,
         name_surname: String,
         tel_num: Number,
         id_number: String,
-        first_name:String,
-        last_name:String,
-        client_tel_num:Number,
-        garantion_date:Date,
+        first_name: String,
+        last_name: String,
+        client_tel_num: Number,
+        garantion_date: Date,
         selled_price: Number
     },
     'Sales'
@@ -327,6 +338,7 @@ module.exports = {
     getByImeiProduct,
     getByNameProduct,
     getByPartnerProduct,
+    getByFactureProduct,
     Partners,
     readAllPartner,
     createNewPartner,
