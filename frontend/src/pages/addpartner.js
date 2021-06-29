@@ -23,10 +23,11 @@ function Addpartner() {
             inputFields[0].partnerContact != "" &&
             inputFields[0].partnerContact != undefined
             ) {
-            axios.post('/partners/add', {
-                company_name: inputFields[0].partnerName,
-                phone_number: inputFields[0].partnerContact
-            }).then();
+                for (let i = 0; i < inputFields.length; i++) { 
+                axios.post('/partners/add', {
+                company_name: inputFields[i].partnerName,
+                phone_number: inputFields[i].partnerContact
+            }).then();}
         Swal.fire({
             icon: "success",
             confirmButtonText: `OK`,

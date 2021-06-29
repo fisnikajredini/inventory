@@ -15,9 +15,8 @@ import addproduct_p from './pages/addproduct_p';
 import allpartners from './pages/allpartners';
 import terms from './pages/terms';
 import newuser from './pages/newuser';
-import printimei from './pages/print/printimei';
 import axios from 'axios';
-import Sales from './pages/sales';
+import genbarcodes from './pages/genbarcodes';
 
 let partners;
 
@@ -75,7 +74,7 @@ function App() {
             <Route path="/addpartner" exact component={addpartner} />
             <Route path="/allpartners" exact component={allpartners} />
             <Route path="/products" exact component={products} />
-            <Route path="/printimei" exact component={printimei} />
+            <Route path="/genbarcodes" exact component={genbarcodes} />
           </Switch>
       </Router>
     ) : (

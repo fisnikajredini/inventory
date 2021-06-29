@@ -13,7 +13,7 @@ const EditProduct = styled.nav`
 function Products() {
 
     const [products, setProducts] = useState([]);
-    const [partners, setPartners] = useState([])
+    const [partners, setPartners] = useState([]);
     const [selected, setSelected] = useState("");
     const [editproduct, setEditProduct] = useState(false);
     const showEditProduct = () => setEditProduct(!editproduct);
@@ -206,7 +206,7 @@ function Products() {
     }
 
     function updateProduct(id) {
-        axios.post('/product/edit', { id: id }, {
+        let changed_inputs = {id: id._id, fields:{
             product_name: inputFields[0].productName,
             imei: inputFields[0].productImei,
             category: inputFields[0].productCategory,
@@ -218,7 +218,8 @@ function Products() {
             selling_price: inputFields[0].productSellPrice,
             buyer: inputFields[0].productPartner,
             facture_number: inputFields[0].productRecieptNumber,
-        })
+        } }
+        axios.post('/product/edit', changed_inputs)
             .then(console.log(inputFields[0]))
             .catch(err => {
                 console.log(err)

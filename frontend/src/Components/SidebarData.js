@@ -28,6 +28,11 @@ export const SidebarData = [
             path: '/products',
             icon: <HiIcons.HiOutlineDocumentSearch />,
             },
+            {
+            title: 'Gjenero Barcode',
+            path: '/genbarcodes',
+            icon: <AiIcons.AiOutlineBarcode />,
+            },
 
         ]
     },

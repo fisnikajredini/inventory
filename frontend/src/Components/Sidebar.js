@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import * as FaIcons from 'react-icons/fa';
@@ -60,6 +60,21 @@ const Sidebar = () => {
     function refreshPage() {
         window.location.reload(false);
       }
+
+    let menuRef = useRef();
+    
+    useEffect(() => {
+        let handler = (event) => {
+            if (!menuRef.current.contains(event.target)) {
+                setSidebar(false)
+            }
+        };
+        document.addEventListener("mousedown", handler);
+        return () => {
+            document.removeEventListener("mousedown", handler)
+        };
+    });
+
     return (
         <>
         <Nav>
@@ -67,7 +82,7 @@ const Sidebar = () => {
             <FaIcons.FaBars onClick={showSidebar}/>
         </NavIcon>
         </Nav>
-        <SidebarNav className="SidebarNav" sidebar={sidebar}>
+        <SidebarNav className="SidebarNav" ref={menuRef} sidebar={sidebar}>
             <SidebarWrap>
                 <NavIcon to="#">
                     <AiIcons.AiOutlineClose onClick={showSidebar} />

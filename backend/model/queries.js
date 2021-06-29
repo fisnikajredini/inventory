@@ -131,7 +131,7 @@ const updateProduct = (id, data) => {
             if (err) {
                 return fail();
             }
-            console.log("----11----", suc)
+            // console.log("----11----", suc)
             return success();
         });
     });

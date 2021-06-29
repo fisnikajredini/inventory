@@ -8,6 +8,7 @@ const pdf = require('html-pdf');
 const cors = require('cors');
 
 const pdfTemplate = require('./documents');
+const pdfBarcode = require('./barcodepdf');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -38,6 +39,21 @@ app.post('/create-pdf', (req, res) => {
 });
 
 app.get('/fetch-pdf', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`)
+})
+
+app.post('/create-barcode', (req, res) => {
+    console.log(req.body)
+    pdf.create(pdfBarcode(req.body), {}).toFile('result.pdf', (err) => {
+        if(err) {
+            res.send(Promise.reject());
+        }
+
+        res.send(Promise.resolve());
+    });
+});
+
+app.get('/fetch-barcode', (req, res) => {
     res.sendFile(`${__dirname}/result.pdf`)
 })
 
@@ -158,6 +174,19 @@ app.post("/products/add/company", (req, res) => {
         });
 });
 
+app.post("/products/add/report", (req, res) => {
+    let inputs = req.body;
+    delete inputs[0]._id;
+    console.log(inputs[0])
+    queries.createNewProduct(inputs[0]).then(()=>
+        res.status(200)
+    ).catch((err)=>{
+        console.log(err)
+
+        res.status(500).send("internal server errorr");
+    })
+});
+
 app.post("/product/add/person", (req, res) => {
     let data = {
         product_name: req.body.product_name,
@@ -198,10 +227,10 @@ app.post("/product/edit", (req, res) => {
 
     console.log("--"+JSON.stringify(req.body))
 
-    let changes = req.body
-     console.log( changes._id)
+    let changes = req.body.fields
+     console.log( changes)
 
-    queries.updateProduct(req.body._id, changes)
+    queries.updateProduct(req.body.id, changes)
     .then(() => {
         console.log("updated succesfully")
         res.json({data: "Product Updated Successfully"});
