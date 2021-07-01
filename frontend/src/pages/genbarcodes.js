@@ -91,7 +91,7 @@ function GenBarcodes() {
 
     function createAndDownloadBarcode() {
         // let products;
-        let pdf_values = { pro:products , JsBarcode:JsBarcode }
+        let pdf_values = { pro:products }
         axios.post('/create-barcode', pdf_values)
             .then(() => axios.get('fetch-barcode', { responseType: 'blob' }))
             .then((res) => {

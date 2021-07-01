@@ -205,20 +205,44 @@ function Products() {
         }
     }
 
+    function getTotalBuy() {
+        let grandTotal = 0;
+        const rowTotals = products.map(
+          row => (row.buying_price) || 0
+        );
+        if (rowTotals.length > 0) {
+          grandTotal = rowTotals.reduce((acc, val) => acc + val);
+        }
+        return grandTotal;
+      }
+
+    function getTotalSell() {
+        let grandTotal = 0;
+        const rowTotals = products.map(
+          row => (row.selling_price) || 0
+        );
+        if (rowTotals.length > 0) {
+          grandTotal = rowTotals.reduce((acc, val) => acc + val);
+        }
+        return grandTotal;
+      }
+
     function updateProduct(id) {
-        let changed_inputs = {id: id._id, fields:{
-            product_name: inputFields[0].productName,
-            imei: inputFields[0].productImei,
-            category: inputFields[0].productCategory,
-            date: inputFields[0].productDate,
-            name_surname: inputFields[0].productPName,
-            tel_num: inputFields[0].productPContactNr,
-            id_number: inputFields[0].productPIdNr,
-            buying_price: inputFields[0].productBuyPrice,
-            selling_price: inputFields[0].productSellPrice,
-            buyer: inputFields[0].productPartner,
-            facture_number: inputFields[0].productRecieptNumber,
-        } }
+        let changed_inputs = {
+            id: id._id, fields: {
+                product_name: inputFields[0].productName,
+                imei: inputFields[0].productImei,
+                category: inputFields[0].productCategory,
+                date: inputFields[0].productDate,
+                name_surname: inputFields[0].productPName,
+                tel_num: inputFields[0].productPContactNr,
+                id_number: inputFields[0].productPIdNr,
+                buying_price: inputFields[0].productBuyPrice,
+                selling_price: inputFields[0].productSellPrice,
+                buyer: inputFields[0].productPartner,
+                facture_number: inputFields[0].productRecieptNumber,
+            }
+        }
         axios.post('/product/edit', changed_inputs)
             .then(console.log(inputFields[0]))
             .catch(err => {
@@ -283,6 +307,19 @@ function Products() {
                             </tr>
                         </tbody>
                     )}
+                    <tfoot class="table-dark">
+                        <tr>
+                            <td><strong>Totali:</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>{getTotalBuy()}</strong></td>
+                            <td><strong>{getTotalSell()}</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
             <EditProduct editproduct={editproduct} className="garantion-form">

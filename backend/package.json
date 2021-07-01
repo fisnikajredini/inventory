@@ -21,6 +21,7 @@
     "electron-is-dev": "^2.0.0",
     "express": "^4.17.1",
     "html-pdf": "^3.0.1",
+    "jsbarcode": "^3.11.4",
     "mongoose": "^5.13.0",
     "node-barcode": "^1.0.0",
     "nodemon": "^2.0.4",
