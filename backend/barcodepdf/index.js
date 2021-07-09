@@ -1,24 +1,26 @@
-module.exports = ({ pro }) => {
-  var JsBarcode = require('jsbarcode');
-  const { DOMImplementation, XMLSerializer } = require('xmldom');
-  const xmlSerializer = new XMLSerializer();
-  const document = new DOMImplementation().createDocument('http://www.w3.org/1999/xhtml', 'html', null);
-  const svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+module.exports = ({pro}) => {
+    var JsBarcode = require('jsbarcode');
+    const {DOMImplementation, XMLSerializer} = require('xmldom');
+    const xmlSerializer = new XMLSerializer();
+    const document = new DOMImplementation().createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+    const svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
-  JsBarcode(svgNode, pro[0].imei, {
-    xmlDocument: document,
-    format: "CODE128",
-    displayValue: true,
-    fontSize: 12,
-    textAlign: "center",
-    width: 1,
-    height: 20
-  })
+    for (let i = 0; i < pro.length; i++) {
+        JsBarcode(svgNode, pro[i].imei, {
+            xmlDocument: document,
+            format: "CODE128",
+            displayValue: true,
+            fontSize: 12,
+            textAlign: "center",
+            width: 1,
+            height: 20
+        })
 
-  const svgText = xmlSerializer.serializeToString(svgNode);
+        pro[i].svgText = xmlSerializer.serializeToString(svgNode);
+    }
 
 
-  return `
+    return `
     <!doctype html>
    <html>
       <head>
@@ -60,17 +62,17 @@ module.exports = ({ pro }) => {
          </style>
       </head>
       <body>
-      ${pro.map((product, key) =>`
-          <div class="grid-container" ${key=product._id}> 
+      ${pro.map((product, key) => `
+          <div class="grid-container" ${key = product._id}> 
               <div class="grid-item">
                   <div class="text-center">
                     <div class="title">${product.product_name.toUpperCase()}</div>
                     <div class="price">${product.selling_price * 61.5} MKD (${product.selling_price}€)</div>
-                    <svg>${svgText}</svg>
+                    <svg>${product.svgText}</svg>
                   </div>
               </div>
           </div>
-        `)}
+        `).join('')}
       </body>
     </html>
   `

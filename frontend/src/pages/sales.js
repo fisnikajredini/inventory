@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import * as FaIcons from 'react-icons/fa';
+// import * as FaIcons from 'react-icons/fa';
 import axios from 'axios';
 import Swal from "sweetalert2";
 import { saveAs } from 'file-saver';
-import logo from '../logo.png'
+// import logo from '../logo.png'
 // import * as AiIcons from 'react-icons/ai';
 
 
@@ -240,7 +240,7 @@ function Sales() {
                                             <input type="input" placeholder="Emri" name="firstName"
                                                 className="form-control" id="firstName" aria-describedby="shifra"
                                                 value={garantionValues.firstName}
-                                                onChange={e => handleChangeGarantion(e)}></input>
+                                                onChange={e => handleChangeGarantion(e)}/>
                                         </div>
                                     </div>
                                     <div className="col-md-6">
@@ -248,7 +248,7 @@ function Sales() {
                                             <input type="input" placeholder="Mbiemri" name="lastName"
                                                 className="form-control" id="lastName" aria-describedby="shifra"
                                                 value={garantionValues.lastName}
-                                                onChange={e => handleChangeGarantion(e)}></input>
+                                                onChange={e => handleChangeGarantion(e)}/>
                                         </div>
                                     </div>
                                 </div>
@@ -258,7 +258,7 @@ function Sales() {
                                             <input type="input" placeholder="Nr. Telefonit" name="contactNr"
                                                 className="form-control" id="contactNr" aria-describedby="shifra"
                                                 value={garantionValues.contactNr}
-                                                onChange={e => handleChangeGarantion(e)}></input>
+                                                onChange={e => handleChangeGarantion(e)}/>
                                         </div>
                                     </div>
                                     <div className="col-md-6">
@@ -266,7 +266,7 @@ function Sales() {
                                             <input type="date" placeholder="Garancion / Muaj" name="garantionDate"
                                                 className="form-control" id="garantionDate" aria-describedby="shifra"
                                                 value={garantionValues.garantionDate}
-                                                onChange={e => handleChangeGarantion(e)}></input>
+                                                onChange={e => handleChangeGarantion(e)}/>
                                         </div>
                                     </div>
                                 </div>

@@ -16,12 +16,12 @@ function Addpartner() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (
-            inputFields[0].partnerName != null &&
-            inputFields[0].partnerName != "" &&
-            inputFields[0].partnerName != undefined &&
-            inputFields[0].partnerContact != null &&
-            inputFields[0].partnerContact != "" &&
-            inputFields[0].partnerContact != undefined
+            inputFields[0].partnerName !== null &&
+            inputFields[0].partnerName !== "" &&
+            inputFields[0].partnerName !== undefined &&
+            inputFields[0].partnerContact !== null &&
+            inputFields[0].partnerContact !== "" &&
+            inputFields[0].partnerContact !== undefined
             ) {
                 for (let i = 0; i < inputFields.length; i++) { 
                 axios.post('/partners/add', {

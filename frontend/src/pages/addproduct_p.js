@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 const imei = require('node-imei');
 const imeichecker = new imei();
 
-const Company_b = styled(Link)`
+const CompanyB = styled(Link)`
 `;
 
 function Addproduct_p({ partners }) {
@@ -40,33 +40,33 @@ function Addproduct_p({ partners }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (
-            inputFields[0].productName != null &&
-            inputFields[0].productName != "" &&
-            inputFields[0].productName != undefined &&
-            inputFields[0].productImei != null &&
-            inputFields[0].productImei != "" &&
-            inputFields[0].productImei != undefined &&
-            inputFields[0].productCategory != null &&
-            inputFields[0].productCategory != "" &&
-            inputFields[0].productCategory != undefined &&
-            inputFields[0].productDate != null &&
-            inputFields[0].productDate != "" &&
-            inputFields[0].productDate != undefined &&
-            inputFields[0].productPName != null &&
-            inputFields[0].productPName != "" &&
-            inputFields[0].productPName != undefined &&
-            inputFields[0].productPIdNr != null &&
-            inputFields[0].productPIdNr != "" &&
-            inputFields[0].productPIdNr != undefined &&
-            inputFields[0].productPContactNr != null &&
-            inputFields[0].productPContactNr != "" &&
-            inputFields[0].productPContactNr != undefined &&
-            inputFields[0].productBuyPrice != null &&
-            inputFields[0].productBuyPrice != "" &&
-            inputFields[0].productBuyPrice != undefined &&
-            inputFields[0].productSellPrice != null &&
-            inputFields[0].productSellPrice != "" &&
-            inputFields[0].productSellPrice != undefined
+            inputFields[0].productName !== null &&
+            inputFields[0].productName !== "" &&
+            inputFields[0].productName !== undefined &&
+            inputFields[0].productImei !== null &&
+            inputFields[0].productImei !== "" &&
+            inputFields[0].productImei !== undefined &&
+            inputFields[0].productCategory !== null &&
+            inputFields[0].productCategory !== "" &&
+            inputFields[0].productCategory !== undefined &&
+            inputFields[0].productDate !== null &&
+            inputFields[0].productDate !== "" &&
+            inputFields[0].productDate !== undefined &&
+            inputFields[0].productPName !== null &&
+            inputFields[0].productPName !== "" &&
+            inputFields[0].productPName !== undefined &&
+            inputFields[0].productPIdNr !== null &&
+            inputFields[0].productPIdNr !== "" &&
+            inputFields[0].productPIdNr !== undefined &&
+            inputFields[0].productPContactNr !== null &&
+            inputFields[0].productPContactNr !== "" &&
+            inputFields[0].productPContactNr !== undefined &&
+            inputFields[0].productBuyPrice !== null &&
+            inputFields[0].productBuyPrice !== "" &&
+            inputFields[0].productBuyPrice !== undefined &&
+            inputFields[0].productSellPrice !== null &&
+            inputFields[0].productSellPrice !== "" &&
+            inputFields[0].productSellPrice !== undefined
         ) {
             axios.post('/product/add/person', {
                 product_name: inputFields[0].productName,
@@ -138,8 +138,8 @@ function Addproduct_p({ partners }) {
             <div className='addproduct'>
                 <div className='top-filter-cont'>
                     <div className="filter-product">
-                        <Company_b className="company-b-2"
-                            to={'./addproduct'}><BiIcons.BiBuildingHouse /> Kompani</Company_b>
+                        <CompanyB className="company-b-2"
+                            to={'./addproduct'}><BiIcons.BiBuildingHouse /> Kompani</CompanyB>
                         <div className="person-b-2"><HiIcons.HiOutlineUserAdd /> Person Fizik</div>
                     </div>
                 </div>
