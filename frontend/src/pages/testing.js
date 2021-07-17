@@ -234,7 +234,7 @@ function Addproduct() {
                     {inputFields.map((inputField, index) => (
                         <div className="product-fields container input-group" key={index}>
                             <div class="col-sm-4">
-                                <label for="tabel" className="form-label">Emri i Produktit</label>
+                                <label for="tabel" className="form-label"> Emri i Produktit</label>
                                 <input type="input" name="productName" className="form-control"
                                     value={text}
                                     onClick={() => setDisplay(!display)}

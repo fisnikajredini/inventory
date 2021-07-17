@@ -13,85 +13,65 @@ var Barcode = require('react-barcode');
 function GenBarcodes() {
 
     const [products, setProducts] = useState([]);
-    const [partners, setPartners] = useState([]);
-    const [selected, setSelected] = useState("");
+    const [productsMatch, setProductMatch] = useState([]);
+    const [text, setText] = useState("");
+    const [checked, setChecked] = useState("false");
+    const [checked2, setChecked2] = useState("false");
 
 
     useEffect(() => {
-        axios.get('/products/get').then(res => {
-            // partners = data.data.data
-            // console.log(res.data.data)
-            // setProducts(res.data.data)
-        })
-            .catch(err => {
-                console.log(err)
-            })
-        axios.get('/partners/get').then(res => {
-            // partners = data.data.data
-            // console.log(res.data.data)
-            // setPartners(res.data.data)
-        })
-            .catch(err => {
-                console.log(err)
-            })
+        const loadProducts = async () => {
+            const response = await axios.get('/products/get');
+            setProducts(response.data.data);
+        };
+        loadProducts();
     }, []);
 
-    const changeSelectOptionHandler = (event) => {
-        setSelected(event.target.value);
-    };
-
-
-
-    function getByProduct(event) {
-        if (selected === "IMEI") {
-            getByImeiProduct(event.target.value);
-        } else if (selected === "Emri Produktit") {
-            getByNameProduct(event.target.value)
-        } else if (selected === "Partneri") {
-            getByPartnerProduct(event.target.value)
-        } else if (selected === "Nr. Faktures") {
-            getByFactureProduct(event.target.value)
+    const onChangeText = (text) => {
+        let matches = []
+        if (text.length > 0) {
+            matches = products.filter((product) => {
+                const regex = new RegExp(`${text}`, "gi");
+                return product.product_name.match(regex) || product.imei.toString().match(regex) || (product.buyer == null ? product.name_surname.match(regex) : product.buyer.match(regex)) || (product.facture_number == null ? product.id_number.match(regex) : product.facture_number.match(regex));
+            });
         }
+        console.log('macthes', matches)
+        setProductMatch(matches);
+        setText(text);
     }
 
-    function getByImeiProduct(event) {
-        let route = '/products/get/byimei';
-        axios.post(route, { imei: event }).then(data => {
-            if (data.data.data !== null) {
-                //console.log(data.data.data);
-                setProducts([data.data.data]);
-            }
-        })
-    }
+    const handleColums = ( e) => {
+        const { checked } = e.target;
+        // setChecked({checked: !setChecked})
+        // console.log("object")
+        if (checked === true) {
+            setChecked(false)
+            // console.log("true")
 
-    function getByNameProduct(event) {
-        let route = '/products/get/byname';
-        axios.post(route, { name: event }).then(data => {
-            //console.log(data.data.data);
-            setProducts(data.data.data);
-        })
-    }
-
-    function getByPartnerProduct(event) {
-        let route = '/products/get/bypartner';
-        axios.post(route, { partnername: event }).then(data => {
-            //console.log(data.data.data)
-            setProducts(data.data.data);
-        })
+        } else if (checked === false) {
+            // console.log("false")
+            setChecked(true)
+        }
 
     }
-    function getByFactureProduct(event) {
-        let route = '/products/get/byfacture';
-        axios.post(route, { nrfaktures: event }).then(data => {
-            //console.log(data.data.data)
-            setProducts(data.data.data);
-        })
+    const handleColums2 = ( e) => {
+        const { checked } = e.target;
+        // setChecked({checked: !setChecked})
+        // console.log("object")
+        if (checked === true) {
+            setChecked2(false)
+            console.log("true")
+
+        } else if (checked === false) {
+            console.log("false")
+            setChecked2(true)
+        }
 
     }
 
     function createAndDownloadBarcode() {
         // let products;
-        let pdf_values = { pro:products }
+        let pdf_values = { pro: productsMatch }
         console.log(pdf_values)
         axios.post('/create-barcode', pdf_values)
             .then(() => axios.get('fetch-barcode', { responseType: 'blob' }))
@@ -109,21 +89,24 @@ function GenBarcodes() {
             </div>
             <div className='sales pt2'>
                 <div className="row col-sm-12">
-                    <div className="col-sm-3">
-                        <select className="form-control" id="exampleFormControlSelect1" onChange={changeSelectOptionHandler}>
-                            <option>IMEI</option>
-                            <option>Emri Produktit</option>
-                            <option>Nr. Faktures</option>
-                            <option>Partneri</option>
-                        </select>
+                    <div className="col-sm-3 checkboxes">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" onChange={handleColums2}></input>
+                            <label class="form-check-label" for="inlineCheckbox1">Nr. Kontaktit</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" onChange={handleColums}></input>
+                            <label class="form-check-label" for="inlineCheckbox2">Nr. Faktures</label>
+                        </div>
                     </div>
                     <div className="col-sm-9">
                         <input
+                            value={text}
                             type="text"
                             id="myInput"
                             className="form-control search-bar"
                             placeholder="Kërko paisjen..."
-                            onChange={getByProduct} />
+                            onChange={(e) => onChangeText(e.target.value)} />
                     </div>
                 </div>
                 <table class="table table-hover table-sm">
@@ -135,12 +118,13 @@ function GenBarcodes() {
                             <th scope="col">Çmimi blerës</th>
                             <th scope="col">Çmimi shitës</th>
                             <th scope="col">Partneri / Personi</th>
-                            <th scope="col">Nr. Fakturës / Nr. ID</th>
+                            <th scope="col" hidden={checked}>Nr. Fakturës / Nr. ID</th>
+                            <th scope="col" hidden={checked2}>Nr. Kontakti</th>
                             <th scope="col">Kategoria</th>
                         </tr>
                     </thead>
-                    {[...products].reverse().map((product, id, key) =>
-                        <tbody key={product._id}>
+                    {productsMatch && [...productsMatch].reverse().map((product, id) => (
+                        <tbody key={id}>
                             <tr>
                                 <td>{product.product_name}</td>
                                 <td>{product.imei}</td>
@@ -148,14 +132,15 @@ function GenBarcodes() {
                                 <td>{product.buying_price}</td>
                                 <td>{product.selling_price}</td>
                                 <td>{product.buyer || product.name_surname}</td>
-                                <td>{product.facture_number || product.id_number}</td>
+                                <td hidden={checked}>{product.facture_number || product.id_number}</td>
+                                <td hidden={checked2}>{product.tel_num || "Partner"}</td>
                                 <td>{product.category}</td>
                             </tr>
                         </tbody>
-                    )}
+                    ))}
                 </table>
                 <div className="align-btn-center p2">
-                    <button type="button" class="btn btn-primary" onClick={() => {createAndDownloadBarcode();}}>Gjenero Barcode</button>
+                    <button type="button" class="btn btn-primary" onClick={() => { createAndDownloadBarcode(); }}>Gjenero Barcode</button>
                 </div>
             </div>
 

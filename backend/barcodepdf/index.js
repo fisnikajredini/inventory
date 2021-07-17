@@ -13,7 +13,7 @@ module.exports = ({pro}) => {
             fontSize: 12,
             textAlign: "center",
             width: 1,
-            height: 20
+            height: 15
         })
 
         pro[i].svgText = xmlSerializer.serializeToString(svgNode);
@@ -30,17 +30,17 @@ module.exports = ({pro}) => {
          .grid-container {
           display: grid;
           grid-template-columns: auto auto auto;
-          padding: 5px;
+          padding: 3px;
           float: left;
           width: 30%;
-          height: 128px;
+          height: 131px;
         }
         .grid-item {
           border: 1px solid rgba(0, 0, 0, 0.8);
-          padding: 10px;
+          padding: 4px;
           font-size: 12px;
           text-align: center;
-          height: 97.8px;
+          height: 98.9px;
         }
         .text-center{
           display:flex;

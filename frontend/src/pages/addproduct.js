@@ -133,14 +133,14 @@ function Addproduct() {
             setfieldCheck("valid")
             console.log("true")
 
-        } else if(imeichecker.isValid(event.target.value) === false) {
+        } else if (imeichecker.isValid(event.target.value) === false) {
             console.log("false")
-                // console.log("false")
-              setImeiValid(<ImIcons.ImCross />)
-              setfieldCheck("invalid") 
+            // console.log("false")
+            setImeiValid(<ImIcons.ImCross />)
+            setfieldCheck("invalid")
         }
-    
-}
+
+    }
 
     //Function to duplicate the fields
     const handleAddFields = () => {
@@ -190,10 +190,10 @@ function Addproduct() {
                             <div class="col-sm-4">
                                 <label for="tabel" className="form-label">IMEI</label>
                                 <div class="input-group mb-2 imei-field">
-                                        <div class="input-group-prepend">
-                                            {/* <div class="input-group-text">{imeiValid}</div> */}
-                                            <div className={`${fieldCheck} input-group-text`}>{imeiValid}</div>
-                                        </div> 
+                                    <div class="input-group-prepend">
+                                        {/* <div class="input-group-text">{imeiValid}</div> */}
+                                        <div className={`${fieldCheck} input-group-text`}>{imeiValid}</div>
+                                    </div>
                                     <input type="number"
                                         name="productImei"
                                         maxLength="15"

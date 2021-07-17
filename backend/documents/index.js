@@ -127,6 +127,10 @@ module.exports = ({ gar, cart_items, firstName, lastName, garantionDate, product
                   <td>IMEI: </td>
                   <td>${cart_items[0].imei}</td>
                </tr>
+               <tr class="item">
+                  <td>Vlera: </td>
+                  <td>${gar.sold_price || cart_items[0].selling_price } €</td>
+               </tr>
             </table>
             <tr class="information">
                   <td colspan="2">
