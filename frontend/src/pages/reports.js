@@ -14,27 +14,28 @@ function Reports() {
     const [checked, setChecked] = useState("false");
     const [checked2, setChecked2] = useState("false");
 
-    // useEffect(() => {
-    //     axios.get('/sales/get').then(res => {
-    //         // partners = data.data.data
-    //         console.log(res.data.data)
-    //         setProducts(res.data.data)
-    //     })
-    //         .catch(err => {
-    //             console.log(err)
-    //         })
-    //     // axios.get("/getpartner").then((response) => {
-    //     // this.setState({company_name: response.data.data });
-    //     // });
-    // }, []);
-
     useEffect(() => {
-        const loadProducts = async () => {
-            const response = await axios.get('/sales/get');
-            setProducts(response.data.data);
-        };
-        loadProducts();
+        axios.get('/sales/get').then(res => {
+            // partners = data.data.data
+            console.log(res.data.data)
+            setProducts(res.data.data)
+            setProductMatch(res.data.data)
+        })
+            .catch(err => {
+                console.log(err)
+            })
+        // axios.get("/getpartner").then((response) => {
+        // this.setState({company_name: response.data.data });
+        // });
     }, []);
+
+    // useEffect(() => {
+    //     const loadProducts = async () => {
+    //         const response = await axios.get('/sales/get');
+    //         setProducts(response.data.data);
+    //     };
+    //     loadProducts();
+    // }, []);
 
     function removeSale(id) {
         Swal.fire({
@@ -104,9 +105,14 @@ function Reports() {
                 const regex = new RegExp(`${text}`, "gi");
                 return product.product_name.match(regex) || product.imei.toString().match(regex) || product.last_name.match(regex) || product.first_name.match(regex);
             });
-        } 
+        } else {
+            matches = products.filter((product) => {
+                const regex = new RegExp(`${text}`, "gi");
+                return product.product_name.match(regex) || product.imei.toString().match(regex) || product.last_name.match(regex) || product.first_name.match(regex);
+            });
+        }
         console.log('macthes', matches)
-        // setProductMatch(matches = null ? products : matches);
+        // setProductMatch(products);
         setProductMatch(matches);
         setText(text);
     }
@@ -195,7 +201,7 @@ function Reports() {
                                 <td>{product.first_name} {product.last_name}</td>
                                 <td>{product.buyer || product.name_surname}</td>
                                 <td>{product.selled_price || product.selling_price}</td>
-                                <td hidden={checked}>Get Sales Username</td>
+                                <td hidden={checked}>Irfan Ferati</td>
                                 {/* <td>{product.category}</td> */}
                                 <td className="edit-delete" hidden={checked2}>
                                     <div className="edit"

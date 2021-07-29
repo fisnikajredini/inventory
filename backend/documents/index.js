@@ -129,7 +129,7 @@ module.exports = ({ gar, cart_items, firstName, lastName, garantionDate, product
                </tr>
                <tr class="item">
                   <td>Vlera: </td>
-                  <td>${gar.sold_price || cart_items[0].selling_price } €</td>
+                  <td>${(gar.sold_price * 61.5) || (cart_items[0].selling_price * 61.5)} MKD</td>
                </tr>
             </table>
             <tr class="information">
