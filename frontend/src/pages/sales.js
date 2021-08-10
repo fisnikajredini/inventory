@@ -30,6 +30,8 @@ function Sales() {
     //const [searchBar, setSearchBar] = useState("");
     const [selected, setSelected] = useState("IMEI");
     const [cartItems, setCartItems] = useState([]);
+    const [productsMatch, setProductMatch] = useState([]);
+    const [text, setText] = useState("");
 
     const [garantionValues, setGarantionValues] = useState([
         { firstName: '', lastName: '', contactNr: '', garantionDate: '', sold_price: '', },
@@ -78,7 +80,7 @@ function Sales() {
         axios.get('/products/get').then(res => {
             // partners = data.data.data
             // console.log(res.data.data)
-            // setProducts(res.data.data)
+            setProducts(res.data.data)
         })
             .catch(err => {
                 console.log(err)
@@ -88,35 +90,48 @@ function Sales() {
         // });
     }, []);
 
-    const changeSelectOptionHandler = (event) => {
-        setSelected(event.target.value);
-    };
-
-    function getByProduct(event) {
-        if (selected === "IMEI") {
-            getByImeiProduct(event.target.value);
-        } else if (selected === "Emri Produktit") {
-            getByNameProduct(event.target.value)
+    const onChangeText = (text) => {
+        let matches = []
+        if (text.length > 0) {
+            matches = products.filter((product) => {
+                const regex = new RegExp(`${text}`, "gi");
+                return product.product_name.match(regex) || product.imei.toString().match(regex);
+            });
         }
+        console.log('macthes', matches)
+        setProductMatch(matches);
+        setText(text);
     }
 
-    function getByImeiProduct(event) {
-        let route = '/products/get/byimei';
-        axios.post(route, { imei: event }).then(data => {
-            if (data.data.data !== null) {
-                // console.log(data.data.data);
-                setProducts([data.data.data]);
-            }
-        })
-    }
+    // const changeSelectOptionHandler = (event) => {
+    //     setSelected(event.target.value);
+    // };
 
-    function getByNameProduct(event) {
-        let route = '/products/get/byname';
-        axios.post(route, { name: event }).then(data => {
-            // console.log(data.data.data);
-            setProducts(data.data.data);
-        })
-    }
+    // function getByProduct(event) {
+    //     if (selected === "IMEI") {
+    //         getByImeiProduct(event.target.value);
+    //     } else if (selected === "Emri Produktit") {
+    //         getByNameProduct(event.target.value)
+    //     }
+    // }
+
+    // function getByImeiProduct(event) {
+    //     let route = '/products/get/byimei';
+    //     axios.post(route, { imei: event }).then(data => {
+    //         if (data.data.data !== null) {
+    //             // console.log(data.data.data);
+    //             setProducts([data.data.data]);
+    //         }
+    //     })
+    // }
+
+    // function getByNameProduct(event) {
+    //     let route = '/products/get/byname';
+    //     axios.post(route, { name: event }).then(data => {
+    //         // console.log(data.data.data);
+    //         setProducts(data.data.data);
+    //     })
+    // }
 
     function addToSalesTable(e) {
 
@@ -170,38 +185,33 @@ function Sales() {
             <div className='sales pt2' onAdd={onAdd}>
                 <div className="row col-sm-12">
                     <div className="col-sm-3">
-                        <select className="form-control" id="exampleFormControlSelect1"
-                            onChange={changeSelectOptionHandler}>
-                            <option>IMEI</option>
-                            <option>Emri Produktit</option>
-                        </select>
+
                     </div>
                     <div className="col-sm-9">
                         <input
+                            value={text}
                             type="text"
                             id="myInput"
                             className="form-control search-bar"
                             placeholder="Kërko paisjen..."
-                            onChange={getByProduct} />
+                            onChange={(e) => onChangeText(e.target.value)} />
                     </div>
                 </div>
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">Emri produktit</th>
                             <th scope="col">IMEI</th>
                             <th scope="col">Data</th>
-                            <th scope="col">Blerësi</th>
+                            <th scope="col">Partneri</th>
                             <th scope="col">Çmimi</th>
                             <th scope="col">Shite produktin</th>
                         </tr>
                     </thead>
                     {/* {console.log(products)} */}
-                    {products.map((product, key) =>
+                    {productsMatch && [...productsMatch].reverse().map((product, id) => (
                         <tbody>
                             <tr>
-                                <th scope="row" key={product.id}>1</th>
                                 <td>{product.product_name}</td>
                                 <td>{product.imei}</td>
                                 <td>{product.date}</td>
@@ -216,7 +226,7 @@ function Sales() {
                                 </td>
                             </tr>
                         </tbody>
-                    )}
+                    ))}
                 </table>
             </div>
 

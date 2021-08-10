@@ -14,10 +14,15 @@ function Products() {
 
     const [products, setProducts] = useState([]);
     const [partners, setPartners] = useState([]);
-    const [selected, setSelected] = useState("");
     const [editproduct, setEditProduct] = useState(false);
     const showEditProduct = () => setEditProduct(!editproduct);
+    const [checked, setChecked] = useState("false");
+    const [checked2, setChecked2] = useState("false");
+    const [checked3, setChecked3] = useState("false");
+    const [checked4, setChecked4] = useState("false");
     const [editItem, setEditItem] = useState([]);
+    const [productsMatch, setProductMatch] = useState([]);
+    const [text, setText] = useState("");
     const [inputFields, setInputFields] = useState([{
         productName: '',
         productImei: '',
@@ -36,7 +41,8 @@ function Products() {
             // partners = data.data.data
             console.log(res.data.data)
             setProducts(res.data.data)
-        })
+            setProductMatch(res.data.data)
+        }).then()
             .catch(err => {
                 console.log(err)
             })
@@ -44,15 +50,11 @@ function Products() {
             // partners = data.data.data
             console.log(res.data.data)
             setPartners(res.data.data)
-        })
+        }).then()
             .catch(err => {
                 console.log(err)
             })
     }, []);
-
-    const changeSelectOptionHandler = (event) => {
-        setSelected(event.target.value);
-    };
 
     function onEdit(product) {
         Swal.fire({
@@ -78,16 +80,6 @@ function Products() {
 
                 }])
                 console.log(editItem)
-                // const exist = editItem.find(x => x.id === product._id);
-                // if (exist) {
-                //     setEditItem(editItem.map(x => x.id === product._id ? { ...exist } : x
-                //     )
-                //     );
-                //     console.log(editItem)
-                // } else {
-                //     setEditItem([...editItem, { ...product }]);
-                //     console.log(editItem)
-                // }
             } else if (result.isDenied) {
                 Swal.fire("Produkti nuk u selektua!", "", "error");
             }
@@ -98,14 +90,25 @@ function Products() {
         setEditItem(
             editItem.filter((product) => product !== productRemove)
         )
-        // const exist = editItem.find((x) => x.id === product._id);
-        // if (exist === 1) {
-        //     setEditItem(editItem.filter((x) => x.id !== product._id));
-        // } else {
-        //     setEditItem(editItem.map(x => x.id === product._id ? { ...exist } : x
-        //     )
-        //     );
-        // }
+    }
+
+    const onChangeText = (text) => {
+        let matches = []
+        if (text.length > 0) {
+            matches = products.filter((product) => {
+                const regex = new RegExp(`${text}`, "gi");
+                return product.product_name.match(regex) || product.imei.toString().match(regex) || (product.buyer == null ? product.name_surname.match(regex) : product.buyer.match(regex)) || (product.facture_number == null ? product.id_number.match(regex) : product.facture_number.match(regex));
+            });
+        } else {
+            matches = products.filter((product) => {
+                const regex = new RegExp(`${text}`, "gi");
+                return product.product_name.match(regex) || product.imei.toString().match(regex) || (product.buyer == null ? product.name_surname.match(regex) : product.buyer.match(regex)) || (product.facture_number == null ? product.id_number.match(regex) : product.facture_number.match(regex));
+            });
+        }
+        console.log('macthes', matches)
+        // setProductMatch(products);
+        setProductMatch(matches);
+        setText(text);
     }
 
     const handleChangeInput = (index, event) => {
@@ -114,59 +117,6 @@ function Products() {
         setInputFields(values);
     }
 
-    function getByProduct(event) {
-        if (selected === "IMEI") {
-            getByImeiProduct(event.target.value);
-        } else if (selected === "Emri Produktit") {
-            getByNameProduct(event.target.value)
-        } else if (selected === "Partneri") {
-            getByPartnerProduct(event.target.value)
-        } else if (selected === "Nr. Faktures") {
-            getByFactureProduct(event.target.value)
-
-        } else if (selected === "Të gjithë produktet") {
-            axios.get('/products/get').then(res => {
-                // partners = data.data.data
-                console.log(res.data.data)
-                setProducts(res.data.data)
-            })
-        }
-    }
-
-    function getByImeiProduct(event) {
-        let route = '/products/get/byimei';
-        axios.post(route, { imei: event }).then(data => {
-            if (data.data.data !== null) {
-                //console.log(data.data.data);
-                setProducts([data.data.data]);
-            }
-        })
-    }
-
-    function getByNameProduct(event) {
-        let route = '/products/get/byname';
-        axios.post(route, { name: event }).then(data => {
-            //console.log(data.data.data);
-            setProducts(data.data.data);
-        })
-    }
-
-    function getByPartnerProduct(event) {
-        let route = '/products/get/bypartner';
-        axios.post(route, { partnername: event }).then(data => {
-            //console.log(data.data.data)
-            setProducts(data.data.data);
-        })
-
-    }
-    function getByFactureProduct(event) {
-        let route = '/products/get/byfacture';
-        axios.post(route, { nrfaktures: event }).then(data => {
-            //console.log(data.data.data)
-            setProducts(data.data.data);
-        })
-
-    }
 
     function removeProduct(id) {
         Swal.fire({
@@ -198,6 +148,63 @@ function Products() {
             }
         });
     };
+
+    const handleColums = ( e) => {
+        const { checked } = e.target;
+        // setChecked({checked: !setChecked})
+        // console.log("object")
+        if (checked === true) {
+            setChecked(false)
+            // console.log("true")
+
+        } else if (checked === false) {
+            // console.log("false")
+            setChecked(true)
+        }
+
+    }
+    const handleColums2 = ( e) => {
+        const { checked } = e.target;
+        // setChecked({checked: !setChecked})
+        // console.log("object")
+        if (checked === true) {
+            setChecked2(false)
+            console.log("true")
+
+        } else if (checked === false) {
+            console.log("false")
+            setChecked2(true)
+        }
+
+    }
+    const handleColums3 = ( e) => {
+        const { checked } = e.target;
+        // setChecked({checked: !setChecked})
+        // console.log("object")
+        if (checked === true) {
+            setChecked3(false)
+            console.log("true")
+
+        } else if (checked === false) {
+            console.log("false")
+            setChecked3(true)
+        }
+
+    }
+    const handleColums4 = ( e) => {
+        const { checked } = e.target;
+        // setChecked({checked: !setChecked})
+        // console.log("object")
+        if (checked === true) {
+            setChecked4(false)
+            console.log("true")
+
+        } else if (checked === false) {
+            console.log("false")
+            setChecked4(true)
+        }
+
+    }
 
     const maxLengthCheck = (object) => {
         if (object.target.value.length > object.target.maxLength) {
@@ -258,21 +265,32 @@ function Products() {
             <div className='sales pt2' onEdit={onEdit}>
                 <div className="row col-sm-12">
                     <div className="col-sm-3">
-                        <select className="form-control" id="exampleFormControlSelect1" onChange={changeSelectOptionHandler}>
-                            <option>Të gjithë produktet</option>
-                            <option>IMEI</option>
-                            <option>Emri Produktit</option>
-                            <option>Nr. Faktures</option>
-                            <option>Partneri</option>
-                        </select>
+                        
+                    <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" onChange={handleColums2}></input>
+                            <label class="form-check-label" for="inlineCheckbox1">Nr. Kontaktit</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" onChange={handleColums}></input>
+                            <label class="form-check-label" for="inlineCheckbox2">Nr. Faktures</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" onChange={handleColums3}></input>
+                            <label class="form-check-label" for="inlineCheckbox1">Edit/Delete</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" onChange={handleColums4}></input>
+                            <label class="form-check-label" for="inlineCheckbox2">Çmimi blerës</label>
+                        </div>
                     </div>
                     <div className="col-sm-9">
                         <input
-                            type="text"
-                            id="myInput"
-                            className="form-control search-bar"
-                            placeholder="Kërko paisjen..."
-                            onChange={getByProduct} />
+                             value={text}
+                             type="text"
+                             id="myInput"
+                             className="form-control search-bar"
+                             placeholder="Kërko paisjen..."
+                             onChange={(e) => onChangeText(e.target.value)} />
                     </div>
                 </div>
                 <table class="table table-hover table-sm">
@@ -281,43 +299,46 @@ function Products() {
                             <th scope="col">Emri produktit</th>
                             <th scope="col">IMEI</th>
                             <th scope="col">Data</th>
-                            <th scope="col">Çmimi blerës</th>
+                            <th scope="col" hidden={checked4}>Çmimi blerës</th>
                             <th scope="col">Çmimi shitës</th>
                             <th scope="col">Partneri / Personi</th>
-                            <th scope="col">Nr. Fakturës / Nr. ID</th>
+                            <th scope="col" hidden={checked}>Nr. Fakturës / Nr. ID</th>
+                            <th scope="col" hidden={checked2}>Nr. Kontakti</th>
                             <th scope="col">Kategoria</th>
-                            <th scope="col">Edit / Delete</th>
+                            <th scope="col" hidden={checked3}>Edit / Delete</th>
                         </tr>
                     </thead>
-                    {[...products].reverse().map((product, id, key) =>
+                    {productsMatch && [...productsMatch].reverse().map((product, id) => (
                         <tbody key={product._id}>
                             <tr>
                                 <td>{product.product_name}</td>
                                 <td>{product.imei}</td>
                                 <td>{product.date}</td>
-                                <td>{product.buying_price}</td>
+                                <td  hidden={checked4}>{product.buying_price}</td>
                                 <td>{product.selling_price}</td>
                                 <td>{product.buyer || product.name_surname}</td>
-                                <td>{product.facture_number || product.id_number}</td>
+                                <td hidden={checked}>{product.facture_number || product.id_number}</td>
+                                <td hidden={checked2}>{product.tel_num || "Partner"}</td>
                                 <td>{product.category}</td>
-                                <td className="edit-delete"><div className="edit" onClick={() => {
+                                <td className="edit-delete" hidden={checked3}><div className="edit" onClick={() => {
                                     onEdit(product);
                                     showEditProduct();
                                 }}><FiIcons.FiEdit2 /></div><div className="delete" onClick={() => removeProduct(product._id)}><FiIcons.FiTrash /></div></td>
                             </tr>
                         </tbody>
-                    )}
+                    ))}
                     <tfoot class="table-dark">
                         <tr>
                             <td><strong>Totali:</strong></td>
                             <td></td>
                             <td></td>
-                            <td><strong>{getTotalBuy()}</strong></td>
+                            <td hidden={checked4}><strong>{getTotalBuy()}</strong></td>
                             <td><strong>{getTotalSell()}</strong></td>
                             <td></td>
+                            <td hidden={checked}></td>
+                            <td hidden={checked2}></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
+                            <td hidden={checked3}></td>
                         </tr>
                     </tfoot>
                 </table>

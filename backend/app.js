@@ -9,6 +9,7 @@ const cors = require('cors');
 
 const pdfTemplate = require('./documents');
 const pdfBarcode = require('./barcodepdf');
+const pdfFacture = require('./facturepdf');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -54,6 +55,21 @@ app.post('/create-barcode', (req, res) => {
 });
 
 app.get('/fetch-barcode', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`)
+})
+
+app.post('/create-facture', (req, res) => {
+    console.log(req.body)
+    pdf.create(pdfFacture(req.body), {}).toFile('result.pdf', (err) => {
+        if(err) {
+            res.send(Promise.reject());
+        }
+
+        res.send(Promise.resolve());
+    });
+});
+
+app.get('/fetch-facture', (req, res) => {
     res.sendFile(`${__dirname}/result.pdf`)
 })
 

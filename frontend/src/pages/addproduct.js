@@ -7,6 +7,8 @@ import * as HiIcons from 'react-icons/hi';
 import * as ImIcons from 'react-icons/im';
 import axios from 'axios';
 import Swal from "sweetalert2";
+import { saveAs } from 'file-saver';
+
 const imei = require('node-imei');
 const imeichecker = new imei();
 
@@ -167,6 +169,18 @@ function Addproduct() {
         }
     }
 
+    function DownloadFacture() {
+        // let products;
+        let pdf_values = { pro:inputFields }
+        axios.post('/create-facture', pdf_values)
+            .then(() => axios.get('fetch-facture', { responseType: 'blob' }))
+            .then((res) => {
+                const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+
+                saveAs(pdfBlob, 'Facture.pdf');
+            })
+    }
+
 
     return (
         <>
@@ -254,7 +268,8 @@ function Addproduct() {
                         </div>
                     ))}
                     <div className="col-sm-12 align-btn-center pb2">
-                        <button type="submit" className="btn btn-success btn-size" onClick={handleSubmit}>Shto Produktin</button>
+                        <button type="submit" className="btn btn-success btn-size" onClick={
+                            () => {DownloadFacture()}}>Shto Produktin</button>
                     </div>
                 </div>
             </div>

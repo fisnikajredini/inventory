@@ -187,6 +187,7 @@ function Reports() {
                             <th scope="col">Blerësi</th>
                             <th scope="col">Partneri</th>
                             <th scope="col">Çmimi shitës</th>
+                            <th scope="col">Nr. Klientit</th>
                             <th scope="col" hidden={checked}>Shitësi</th>
                             <th scope="col" hidden={checked2}>Edit/Delete</th>
                         </tr>
@@ -201,6 +202,7 @@ function Reports() {
                                 <td>{product.first_name} {product.last_name}</td>
                                 <td>{product.buyer || product.name_surname}</td>
                                 <td>{product.selled_price || product.selling_price}</td>
+                                <td>{product.client_tel_num}</td>
                                 <td hidden={checked}>Irfan Ferati</td>
                                 {/* <td>{product.category}</td> */}
                                 <td className="edit-delete" hidden={checked2}>
