@@ -57,8 +57,8 @@ function Addproduct() {
         // });
     }, []);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    function handleSubmit(e) {
+        // e.preventDefault();
         if (
             inputFields[0].productName != null &&
             inputFields[0].productName != "" &&
@@ -170,8 +170,9 @@ function Addproduct() {
     }
 
     function DownloadFacture() {
+        let pdf_values = {pro:[...inputFields]}
         // let products;
-        let pdf_values = { pro:inputFields }
+        // let pdf_values = { pro:inputFields }
         axios.post('/create-facture', pdf_values)
             .then(() => axios.get('fetch-facture', { responseType: 'blob' }))
             .then((res) => {
@@ -269,7 +270,7 @@ function Addproduct() {
                     ))}
                     <div className="col-sm-12 align-btn-center pb2">
                         <button type="submit" className="btn btn-success btn-size" onClick={
-                            () => {DownloadFacture()}}>Shto Produktin</button>
+                            () => {DownloadFacture(); handleSubmit();}}>Shto Produktin</button>
                     </div>
                 </div>
             </div>
