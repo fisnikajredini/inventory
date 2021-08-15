@@ -1,4 +1,19 @@
-<!doctype html>
+module.exports = ({ pro, partner }) => {
+    const today = new Date();
+
+    function getTotalSell() {
+        let grandTotal = 0;
+        const rowTotals = pro.map(
+            row => (row.selled_price == null ? row.selling_price : row.selled_price) || 0
+        );
+        if (rowTotals.length > 0) {
+            grandTotal = rowTotals.reduce((acc, val) => parseInt(acc) + parseInt(val));
+        }
+        return grandTotal;
+    };
+
+    return `
+    <!doctype html>
     <html>
     <head>
     <meta charset="utf-8">
@@ -124,8 +139,19 @@
                 </tr>
             `).join('')}
             </tbody>
+            <tfoot>
+                <tr class="table-dark">
+                    <td><strong>Totali:</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>${getTotalSell()}</strong></td>
+                    <td></td>
+                </tr>
+            </tfoot>
         </table>
         <br />
     </div>
     </body>
     </html>
+     `;
+};

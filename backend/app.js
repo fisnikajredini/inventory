@@ -10,6 +10,7 @@ const cors = require('cors');
 const pdfTemplate = require('./documents');
 const pdfBarcode = require('./barcodepdf');
 const pdfFacture = require('./facturepdf');
+const pdfReport = require('./reportpdf');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -70,6 +71,22 @@ app.post('/create-facture', (req, res) => {
 });
 
 app.get('/fetch-facture', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`)
+})
+
+app.post('/create-report', (req, res) => {
+    config = {"orientation": "landscape"};
+    console.log(req.body)
+    pdf.create(pdfReport(req.body), {}).toFile('result.pdf', (err) => {
+        if(err) {
+            res.send(Promise.reject());
+        }
+
+        res.send(Promise.resolve());
+    });
+});
+
+app.get('/fetch-report', (req, res) => {
     res.sendFile(`${__dirname}/result.pdf`)
 })
 

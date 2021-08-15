@@ -46,13 +46,16 @@ function Sales() {
             denyButtonText: `JO`,
         }).then((result) => {
             if (result.isConfirmed) {
+                console.log("cartitems", cartItems)
                 const exist = cartItems.find(x => x.id === product._id);
                 if (exist) {
+                    console.log("1")
                     setCartItems(cartItems.map(x => x.id === product._id ? { ...exist, qty: exist.qty + 1 } : x
                     )
                     );
                     console.log(cartItems)
                 } else {
+                    console.log("2",cartItems)
                     setCartItems([...cartItems, { ...product, qty: 1 }]);
                     
                 }
@@ -134,12 +137,20 @@ function Sales() {
     // }
 
     function addToSalesTable(e) {
+        
+        let inputs = productsMatch;
 
-        let inputs = products;
+        var d = new Date();
+        d.setMonth(d.getMonth() + JSON.parse(garantionValues.garantionDate));   
+        
+        var gardate = new Date(d)
+        garantionValues.garantionDate = `${gardate.getDate()}-${gardate.getMonth()+1}-${gardate.getFullYear()}`;
+
         inputs[0].first_name = garantionValues.firstName;
         inputs[0].last_name = garantionValues.lastName;
+        inputs[0].date = new Date().getTime();
         inputs[0].client_tel_num = garantionValues.contactNr;
-        inputs[0].garantion_date = garantionValues.garantionDate;
+        inputs[0].garantion_date = d;
         inputs[0].selled_price = garantionValues.sold_price;
 
         let id_to_del = inputs[0]._id;
@@ -273,7 +284,7 @@ function Sales() {
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <input type="date" placeholder="Garancion / Muaj" name="garantionDate"
+                                            <input type="number" placeholder="Garancion / Muaj" name="garantionDate"
                                                 className="form-control" id="garantionDate" aria-describedby="shifra"
                                                 value={garantionValues.garantionDate}
                                                 onChange={e => handleChangeGarantion(e)}/>
