@@ -57,7 +57,7 @@ function Sales() {
                 } else {
                     console.log("2",cartItems)
                     setCartItems([...cartItems, { ...product, qty: 1 }]);
-                    
+                    console.log("----",[...cartItems, { ...product, qty: 1 }])
                 }
             } else if (result.isDenied) {
                 Swal.fire("Produkti nuk u selektua!", "", "error");
@@ -137,8 +137,8 @@ function Sales() {
     // }
 
     function addToSalesTable(e) {
-        
-        let inputs = productsMatch;
+        const exist = productsMatch.find(x => x._id === cartItems[0]._id);
+        let inputs = [exist];
 
         var d = new Date();
         d.setMonth(d.getMonth() + JSON.parse(garantionValues.garantionDate));   

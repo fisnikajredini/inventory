@@ -291,7 +291,7 @@ app.post("/product/edit", (req, res) => {
 
 app.post("/sales/delete/product", (req, res) => {
 
-    console.log("--"+JSON.stringify(req.body.id))
+    console.log("--"+JSON.stringify(req.body))
     queries.removeSale(req.body.id)
         .then(() => {
             res.json({data: "Product Deleted Successfully"});

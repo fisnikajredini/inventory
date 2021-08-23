@@ -6,6 +6,7 @@ import * as HiIcons from 'react-icons/hi';
 import axios from 'axios';
 import Swal from "sweetalert2";
 import { saveAs } from 'file-saver';
+import ReactToExcel from 'react-html-table-to-excel';
 
 
 function Reports() {
@@ -27,18 +28,8 @@ function Reports() {
             .catch(err => {
                 console.log(err)
             })
-        // axios.get("/getpartner").then((response) => {
-        // this.setState({company_name: response.data.data });
-        // });
     }, []);
 
-    // useEffect(() => {
-    //     const loadProducts = async () => {
-    //         const response = await axios.get('/sales/get');
-    //         setProducts(response.data.data);
-    //     };
-    //     loadProducts();
-    // }, []);
 
     function removeSale(id) {
         Swal.fire({
@@ -72,28 +63,20 @@ function Reports() {
     };
 
     function addToProductsTable(e) {
-
-        let inputs = products;
-        inputs[0].product_name = e.product_name;
-        inputs[0].imei = e.imei;
-        inputs[0].category = e.category;
-        inputs[0].date = e.date;
-        inputs[0].buyer = e.buyer;
-        inputs[0].buying_price = e.buying_price;
-        inputs[0].selling_price = e.selling_price;
-        inputs[0].facture_number = e.facture_number;
-        inputs[0].name_surname = e.name_surname;
-        inputs[0].tel_num = e.tel_num;
-        inputs[0].id_number = e.id_number;
+        console.log("object",e)
+        
+console.log(productsMatch)
+        let inputs = [e];
 
         let id_to_del = inputs[0]._id;
 
         axios.post('/products/add/report', inputs)
             .then(
-                // axios.post('/sales/delete/product', { id: id_to_del }).then()
-                //     .catch(err => {
-                //         console.log(err)
-                //     })
+                // console.log("deleted pro", id_to_del, inputs)
+                axios.post('/sales/delete/product', { id: id_to_del }).then()
+                    .catch(err => {
+                        console.log(err)
+                    })
             )
             .catch(err => console.log(err))
 
@@ -217,7 +200,7 @@ function Reports() {
             <div className='reports pt2' onSubmit={(e) => addToProductsTable(e)}>
                 <div className="exportButtonContainer">
                     <button id="exportButton1" class="btn btn-lg btn-warning clearfix" onClick={() => { createAndDownloadReport(); }}><FaIcons.FaFilePdf /> Gjenero PDF</button>
-                    <button id="exportButton2" class="btn btn-lg btn-success clearfix"><FaIcons.FaFileCsv /> Gjenero CSV</button>
+                    <ReactToExcel table="exportTable" className="btn btn-lg btn-success clearfix" filename="Raporti" sheet="sheet 1" buttonText="Exporto ne Excel"/>
                     <button id="exportButton3" class="btn btn-lg btn-info clearfix" onClick={() => { createAndDownloadReportDaily(); }}><HiIcons.HiOutlineDocumentReport /> Raporti Ditor</button>
                 </div>
                 <div className="row col-sm-12 pb2">
@@ -256,6 +239,8 @@ function Reports() {
                             <th scope="col" hidden={checked3}>Partneri</th>
                             <th scope="col">Çmimi shitës</th>
                             <th scope="col">Nr. Klientit</th>
+                            <th scope="col" hidden="true">Çmimi Blerës</th>
+                            <th scope="col" hidden="true">Nr. Fakturës</th>
                             <th scope="col" hidden={checked}>Shitësi</th>
                             <th scope="col" hidden={checked2}>Edit/Delete</th>
                         </tr>
@@ -271,6 +256,8 @@ function Reports() {
                                 <td hidden={checked3}>{product.buyer || product.name_surname}</td>
                                 <td>{product.selled_price || product.selling_price}</td>
                                 <td>{product.client_tel_num}</td>
+                                <td hidden="true">{product.buying_price}</td>
+                                <td hidden="true">{product.facture_number}</td>
                                 <td hidden={checked}>Irfan Ferati</td>
                                 {/* <td>{product.category}</td> */}
                                 <td className="edit-delete" hidden={checked2}>
